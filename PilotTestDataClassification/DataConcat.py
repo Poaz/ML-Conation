@@ -1,22 +1,23 @@
 import pandas as pd
 import os
 import sys
+import numpy as np
 
 # List to hold file names
-FileNames = []
+#FileNames = []
 
 # Your path will be different, please modify the path below.
-os.chdir(r"C:\Users\dines\Google Drev\School\AAU\8. Semester\Semester Project 8\PilotTestDataClassification\Data")
+#os.chdir(r"C:\Users\dines\Google Drev\School\AAU\8. Semester\Semester Project 8\Machine Learning\ML-Conation\PilotTestDataClassification\Data\\")
 
 # Find any file that ends with ".csv"
-for files in os.listdir("."):
-    if files.endswith(".csv"):
-        FileNames.append(files)
+#for files in os.listdir("."):
+#    if files.endswith(".csv"):
+#        FileNames.append(files)
 
 def GetFile(fnombre):
     # Path to excel file
     # Your path will be different, please modify the path below.
-    location = r'C:\Users\dines\Google Drev\School\AAU\8. Semester\Semester Project 8\PilotTestDataClassification\Data\\' + fnombre
+    location = r'C:\\Users\\dines\\Google Drev\\School\\AAU\\8. Semester\\Semester Project 8\\Machine Learning\\ML-Conation\\PilotTestDataClassification\\Data\\' + fnombre
 
     # Parse the excel file
     # 0 = first sheet
@@ -32,11 +33,11 @@ def GetFile(fnombre):
 def GetFileComma(fnombre):
     # Path to excel file
     # Your path will be different, please modify the path below.
-    location = r'C:\Users\dines\Google Drev\School\AAU\8. Semester\Semester Project 8\PilotTestDataClassification\Data\\' + fnombre
+    location = r'C:\\Users\\dines\\Google Drev\\School\\AAU\\8. Semester\\Semester Project 8\\Machine Learning\\ML-Conation\\PilotTestDataClassification\\Data\\' + fnombre
 
     # Parse the excel file
     # 0 = first sheet
-    df = pd.read_csv(location, header=0, sep=',')
+    df = pd.read_csv(location, header=0, sep=';')
 
     # Tag record to file name
     df['File'] = fnombre
@@ -45,7 +46,7 @@ def GetFileComma(fnombre):
     return df.set_index(['File'])
 
 # Create a list of dataframes
-df_list = [GetFile(fname) for fname in FileNames]
+#df_list = [GetFile(fname) for fname in FileNames]
 
 eyetrack = GetFile("P4.csv")
 naos = GetFileComma("P4_naos.csv")
@@ -53,15 +54,19 @@ eyetrack.reset_index(drop=True)
 naos.reset_index(drop=True)
 
 
+
+#naos.values.reshape(90155, 6)
 # Combine all of the dataframes into one
-big_df = pd.concat([eyetrack, naos], axis=1, join_axes=[eyetrack.index])
+#big_df = pd.concat([naos, eyetrack], axis=1, ignore_index=False)
+#big_df = pd.DataFrame.merge(naos, eyetrack)
+#big_df = pd.DataFrame({"a": [eyetrack], "b": 12}, index=[0])
 #print(big_df)
 
-print(eyetrack)
-print(naos)
-#combined_df = eyetrack.join(naos, lsuffix='eyetrack', rsuffix='naos')
+#print(eyetrack)
+#print(naos)
+#ombined_df = eyetrack.join(naos, lsuffix='eyetrack', rsuffix='naos')
 
-big_df.fillna(0)
-big_df.to_csv('CombinedData.csv', index=False)
-
-print('Done')
+#big_df.fillna(0)
+#big_df.to_csv('CombinedData.csv', index=False)
+#print(big_df)
+#print('Done')

@@ -11,25 +11,25 @@ parser.add_argument('--batch_size', default=100, type=int, help='batch size')
 parser.add_argument('--train_steps', default=10000, type=int,
                     help='number of training steps')
 
-def load_data(label_name='EyeMovementType'):
+def load_data(label_name='ConationLevel'):
 
-    CSV_COLUMN_NAMES = ['GazePointX', 'GazePointY',
-                        'GazeDirectionLeftX', 'GazeDirectionLeftY', 'GazeDirectionLeftZ',
-                        'GazeDirectionRightX', 'GazeDirectionRightY', 'GazeDirectionRightZ',
-                        'GazeEventDuration', 'FixationPointX', 'FixationPointY', 'EyeMovementType']
+    CSV_COLUMN_NAMES = ['Gaze3DpositionleftX', 'Gaze3DpositionleftY', 'Gaze3DpositionleftZ',
+                        'Gaze3DpositionrightX', 'Gaze3DpositionrightY', 'Gaze3DpositionrightZ',
+                        'Pupildiameterleft', 'Pupildiameterright', 'HR', 'HRAVG', 'HRMAX', 'GSR', 'ConationLevel']
 
-    train_path = "Data.csv"
+    train_path = "CombinedData.csv"
 
     # Parse the local CSV file.
     train = pd.read_csv(filepath_or_buffer=train_path,
                         names=CSV_COLUMN_NAMES,
                         header=0, sep=',')
-
+    #train = train.iloc[:, 12].astype(int)
     train_features, test_features = sk.train_test_split(train, test_size=0.33, random_state=42)
     train_label, test_label = sk.train_test_split(train.pop(label_name), test_size=0.33, random_state=42)
 
     # Return four DataFrames.
     return (train_features, train_label), (test_features, test_label)
+
 
 
 def train_input_fn(features, labels, batch_size):
@@ -65,13 +65,15 @@ def main(argv):
     # Call load_data() to parse the CSV file.
     (train_feature, train_label), (test_feature, test_label) = load_data()
 
+    #print(train_label)
+
     my_feature_columns = []
     for key in train_feature.keys():
         my_feature_columns.append(tf.feature_column.numeric_column(key=key))
 
     classifier = tf.estimator.DNNClassifier(feature_columns=my_feature_columns,
-                                            hidden_units=[1000, 500, 250, 150, 50, 25],
-                                            n_classes=4, activation_fn=tf.nn.relu)
+                                            hidden_units=[40, 30, 25, 20, 15, 7],
+                                            n_classes=7, activation_fn=tf.nn.relu)
 
     classifier.train(input_fn=lambda: train_input_fn(train_feature, train_label, args.batch_size),
                      steps=args.train_steps)
@@ -79,7 +81,25 @@ def main(argv):
     #Evaluate the model.
     eval_result = classifier.evaluate(input_fn=lambda: eval_input_fn(test_feature, test_label, args.batch_size))
 
-    print('\nTest set accuracy: {accuracy:0.3f}\n'.format(**eval_result))
+    #print('\nTest set accuracy: {accuracy:0.3f}\n'.format(**eval_result))
+    print(eval_result)
+
+    # Generate predictions from the model
+    expected = ['2']
+    predict_x = {
+        'Gaze3DpositionleftX': [-15.5206069946289],
+        'Gaze3DpositionleftY': [-13.7884674072266],
+        'Gaze3DpositionleftZ': [439.423065185547],
+        'Gaze3DpositionrightX': [-15.5206069946289],
+        'Gaze3DpositionrightY': [-13.7884674072266],
+        'Gaze3DpositionrightZ': [439.423065185547],
+        'Pupildiameterleft': [5.39],
+        'Pupildiameterright': [5.32],
+        'HR': [88.24],
+        'HRAVG': [74.77],
+        'HRMAX': [74.77],
+        'GSR': [0.810318696757843],
+    }
 
 if __name__ == '__main__':
     tf.logging.set_verbosity(tf.logging.INFO)

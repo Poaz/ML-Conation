@@ -1,0 +1,42 @@
+﻿<Window x:Class="WpfApp1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="587.701" Width="702.885">
+    <Grid Name="MainGrid" Margin="0,0,2,0">
+        <TextBlock HorizontalAlignment="Left" Margin="25,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="248"><Run Text="Step 1. "/><Run Text="Offset Naos QG Dat"/><Run Text="a"/></TextBlock>
+        <TextBox Name="toBeOffsetPath" HorizontalAlignment="Left" Height="20" Margin="25,50,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="551" TextChanged="tobeOffsetPath_TextChanged" />
+        <Button Name="selectToBeOffset" Content="Naos CQ File" HorizontalAlignment="Left" Margin="581,50,0,0" VerticalAlignment="Top" Width="75" Click="selectToBeOffset_Click"/>
+        <Button Name="offsetTimeButton" Content="Offset Time" HorizontalAlignment="Left" Margin="581,75,0,0" VerticalAlignment="Top" Width="75" Click="offsetTimeButton_Click"/>
+        <TextBox Name="tobiiFilePathTextBox" HorizontalAlignment="Left" Height="20" Margin="25,116,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="551" TextChanged="TextBox_TextChanged"/>
+        <Button Name="selectTobbiFileButton" Content="Tobii File" HorizontalAlignment="Left" Margin="581,116,0,0" VerticalAlignment="Top" Width="75" Click="selectTobbiFileButton_Click"/>
+        <Button Name="convertTimeValuesButton" Content="Convert Time Values" HorizontalAlignment="Left" Margin="581,141,0,0" VerticalAlignment="Top" Width="75" Click="startSyncronizationButton_Click"/>
+        <TextBox Name="tobbiiStartTimeTextBox" HorizontalAlignment="Left" Height="17" Margin="153,144,0,0" TextWrapping="Wrap" Text="hh:mm:ss" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged_1"/>
+        <TextBlock HorizontalAlignment="Left" Margin="25,145,0,0" TextWrapping="Wrap" Text="Insert tobii start time" VerticalAlignment="Top" Width="132"/>
+        <Button Name="alignDataButton" Content="Syncronize Data" HorizontalAlignment="Left" Margin="25,258,0,0" VerticalAlignment="Top" Width="215" Height="36" Click="alignDataButton_Click"/>
+        <TextBox Name="newNaosFileTextBox" HorizontalAlignment="Left" Height="19" Margin="25,210,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="551"/>
+        <TextBox Name="newTobiiFileTextBox" HorizontalAlignment="Left" Height="19" Margin="25,234,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="551"/>
+        <Button Name="selectNewNaosFileButton" Content="New Naos" HorizontalAlignment="Left" Margin="581,209,0,0" VerticalAlignment="Top" Width="75" Click="selectNewNaosFileButton_Click"/>
+        <Button Name="selectNewTobiiFileButton" Content="New Tobii" HorizontalAlignment="Left" Margin="581,234,0,0" VerticalAlignment="Top" Width="75" Click="selectNewTobiiFileButton_Click"/>
+        <TextBox Name="mergedFilePathTextBox" HorizontalAlignment="Left" Height="20" Margin="25,315,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="551" TextChanged="TextBox_TextChanged_2"/>
+        <Button Name="selectMergedFileButton" Content="Merged File" HorizontalAlignment="Left" Margin="581,315,0,0" VerticalAlignment="Top" Width="75" Click="selectMergedFileButton_Click"/>
+        <TextBox  Name="trimStart" HorizontalAlignment="Left" Height="16" Margin="89,339,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.424,5.352" TextChanged="trimStart_TextChanged"/>
+        <TextBlock HorizontalAlignment="Left" Margin="25,340,0,0" TextWrapping="Wrap" Text="Trim Start" VerticalAlignment="Top" Width="59"/>
+        <TextBox Name="trimEnd" HorizontalAlignment="Left" Height="16" Margin="89,360,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.424,5.352" TextChanged="trimEnd_TextChanged"/>
+        <TextBlock HorizontalAlignment="Left" Margin="25,361,0,0" TextWrapping="Wrap" Text="Trim End" VerticalAlignment="Top" Width="59"/>
+        <Button Name="trimButton" Content="Trim" HorizontalAlignment="Left" Margin="439,470,0,0" VerticalAlignment="Top" Width="75" Height="37" Click="trimButton_Click"/>
+        <TextBox Name="trimmedFilePathTextBox" HorizontalAlignment="Left" Height="20" Margin="25,382,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="551" TextChanged="trimmedFilePath_TextChanged"/>
+        <TextBox Name="connationPrevTextBox" HorizontalAlignment="Left" Height="16" Margin="303,339,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" RenderTransformOrigin="-0.083,1.312" TextChanged="connationPrevTextBox_TextChanged"/>
+        <TextBlock HorizontalAlignment="Left" Margin="214,340,0,0" TextWrapping="Wrap" Text="Connation Prev" VerticalAlignment="Top" Width="84"/>
+        <TextBlock HorizontalAlignment="Left" Margin="214,360,0,0" TextWrapping="Wrap" Text="Connation Next" VerticalAlignment="Top" Width="84"/>
+        <TextBox Name="connationNextTextBox" HorizontalAlignment="Left" Height="16" Margin="303,361,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" RenderTransformOrigin="-0.083,1.312" TextChanged="connationNextTextBox_TextChanged"/>
+        <ListBox Name="trimmingPartsListBox" HorizontalAlignment="Left" Height="100" Margin="25,407,0,0" VerticalAlignment="Top" Width="398" SelectionChanged="trimmingPartsListBox_SelectionChanged"/>
+        <Button Name="addTrimSectionButton" Content="Add" HorizontalAlignment="Left" Margin="439,340,0,0" VerticalAlignment="Top" Width="75" Height="36" Click="addTrimSectionButton_Click"/>
+        <TextBox Name="fileNameTextBox" HorizontalAlignment="Left" Height="19" Margin="565,26,0,0" TextWrapping="Wrap" Text="Participant ID" VerticalAlignment="Top" Width="91" RenderTransformOrigin="-3.703,0.87" TextChanged="fileNameTextBox_TextChanged"/>
+        <Button Name="clearContentButton" Content="Clear" HorizontalAlignment="Left" Margin="439,436,0,0" VerticalAlignment="Top" Width="75" Height="24" Click="clearContentButton_Click"/>
+        <Button Name="removeContentButton" Content="Remove" HorizontalAlignment="Left" Margin="439,407,0,0" VerticalAlignment="Top" Width="75" Height="24" Click="removeContentButton_Click"/>
+    </Grid>
+</Window>

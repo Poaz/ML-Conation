@@ -2,10 +2,10 @@ import pandas as pd
 import os
 
 #Header
-#Gaze 3D position left X, Gaze 3D position left Y, Gaze 3D position left Z, Gaze 3D position right X,Gaze 3D position right Y,Gaze 3D position right Z,Pupil diameter left,Pupil diameter right, HR, HRAVG, HRMAX, GSR, ConationLevel
+#Gaze 3D position left X, Gaze 3D position left Y, Gaze 3D position left Z, Gaze 3D position right X,Gaze 3D position right Y,Gaze 3D position right Z,Pupil diameter left,Pupil diameter right, HR, GSR, ConationLevel
 
 #Path to data folder
-path = "D:\Google Drive\School\AAU\8. Semester\Semester Project 8\Machine Learning\ML-Conation\PilotTestDataClassification\Data\Parsed\\"
+path = r"D:\Google Drive\School\AAU\8. Semester\Semester Project 8\Machine Learning\ML-Conation\ConationNetwork\Data\\"
 
 # List to hold file names
 FileNames = []

@@ -17,7 +17,7 @@ def load_data(label_name='ConationLevel'):
                         'Gaze3DpositionrightX', 'Gaze3DpositionrightY', 'Gaze3DpositionrightZ',
                         'Pupildiameterleft', 'Pupildiameterright', 'HR', 'GSR', 'ConationLevel']
 
-    train_path = "CombinedDataVelocity.csv"
+    train_path = "CombinedDataNoZerosAbsVelocityOnEyes.csv"
 
     # Parse the local CSV file.
     train = pd.read_csv(filepath_or_buffer=train_path,
@@ -25,6 +25,8 @@ def load_data(label_name='ConationLevel'):
                         header=0, sep=',')
     #train = train.iloc[:, 12].astype(int)
     train_features, test_features = sk.train_test_split(train, test_size=0.33, random_state=42)
+    train_features = train_features.drop(['ConationLevel'], axis=1)
+    test_features = test_features.drop(['ConationLevel'], axis=1)
     train_label, test_label = sk.train_test_split(train.pop(label_name), test_size=0.33, random_state=42)
 
     # Return four DataFrames.
@@ -65,7 +67,7 @@ def main(argv):
     # Call load_data() to parse the CSV file.
     (train_feature, train_label), (test_feature, test_label) = load_data()
 
-    #print(train_label)
+    print(train_feature)
 
     my_feature_columns = []
     for key in train_feature.keys():
@@ -84,22 +86,6 @@ def main(argv):
     #print('\nTest set accuracy: {accuracy:0.3f}\n'.format(**eval_result))
     print(eval_result)
 
-    # Generate predictions from the model
-    expected = ['2']
-    predict_x = {
-        'Gaze3DpositionleftX': [-15.5206069946289],
-        'Gaze3DpositionleftY': [-13.7884674072266],
-        'Gaze3DpositionleftZ': [439.423065185547],
-        'Gaze3DpositionrightX': [-15.5206069946289],
-        'Gaze3DpositionrightY': [-13.7884674072266],
-        'Gaze3DpositionrightZ': [439.423065185547],
-        'Pupildiameterleft': [5.39],
-        'Pupildiameterright': [5.32],
-        'HR': [88.24],
-        'HRAVG': [74.77],
-        'HRMAX': [74.77],
-        'GSR': [0.810318696757843],
-    }
 
 if __name__ == '__main__':
     tf.logging.set_verbosity(tf.logging.INFO)

@@ -127,14 +127,16 @@ CallBack = keras.callbacks.TensorBoard(log_dir='./Logs', histogram_freq=1, batch
 model = Sequential()
 
 #model.input(input_dim=10, name="input")
+
 model.add(Dense(40, input_dim=10, name="dense_one"))
 model.add(Activation('relu'))
 model.add(Dropout(dropout))
 model.add(Dense(40, name="dense_two"))
 model.add(Activation('relu'))
 model.add(Dropout(dropout))
-model.add(Dense(7, name="final", activation='softmax'))
-
+model.add(Dense(7, activation='softmax'))
+print(model.input_shape)
+model.summary()
 model.compile(loss='sparse_categorical_crossentropy',
               optimizer=adam,
               metrics=['accuracy'])

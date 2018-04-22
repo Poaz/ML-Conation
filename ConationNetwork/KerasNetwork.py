@@ -12,9 +12,9 @@ from keras import backend as K
 
 ##############################################################################
 dropout = 0.3
-epochs = 1
+epochs = 50
 batchSize = 128
-validationSplit = 0.2
+validationSplit = 0.15
 classes = 7
 sgd = SGD(lr=0.001, decay=1e-6, momentum=0.9, nesterov=True)
 adam = Adam(lr=0.001, decay=1e-6)
@@ -135,7 +135,6 @@ model.add(Dense(40, name="dense_two"))
 model.add(Activation('relu'))
 model.add(Dropout(dropout))
 model.add(Dense(7, activation='softmax'))
-print(model.input_shape)
 model.summary()
 model.compile(loss='sparse_categorical_crossentropy',
               optimizer=adam,
@@ -151,6 +150,8 @@ model.fit(train_feature, train_label, epochs=epochs, batch_size=batchSize)
 loss_and_metrics = model.evaluate(test_feature, test_label, batch_size=128)
 print(loss_and_metrics)
 
+model.save('ConationModel.HDF5')
+
 # Create, compile and train model...
-frozen_graph = freeze_session(K.get_session(), output_names=[out.op.name for out in model.outputs])
-tf.train.write_graph(frozen_graph, model_path, "my_model.pb", as_text=False)
+#frozen_graph = freeze_session(K.get_session(), output_names=[out.op.name for out in model.outputs])
+#tf.train.write_graph(frozen_graph, model_path, "my_model.pb", as_text=False)

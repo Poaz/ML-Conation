@@ -21,22 +21,12 @@ adam = Adam(lr=0.001, decay=1e-6)
 model_path = ''
 env_name = 'ConationModel'
 ##############################################################################
-"""
-from tensorflow.python.client import device_lib
-print(device_lib.list_local_devices())
-
-from keras import backend as K
-K.tensorflow_backend._get_available_gpus()
-"""
 
 def load_data(label_name='ConationLevel'):
 
     CSV_COLUMN_NAMES = ['Gaze 3D position left X', 'Gaze 3D position left Y', 'Gaze 3D position left Z',
                         'Gaze 3D position right X', 'Gaze 3D position right Y', 'Gaze 3D position right Z',
                         'Pupil diameter left', 'Pupil diameter right', 'HR', 'GSR', 'ConationLevel']
-
-    #CSV_COLUMN_NAMES = ['angleleft', 'angleright',
-    #                    'Pupil diameter left', 'Pupil diameter right', 'HR', 'GSR', 'ConationLevel']
 
     train_path = "CombinedDataNoZerosAbsVelocityOnEyes.csv"
 
@@ -56,13 +46,7 @@ def load_data(label_name='ConationLevel'):
 
 
 def save_model(sess, saver, model_path=""):
-    """
-    Saves current model to checkpoint folder.
-    :param sess: Current Tensorflow session.
-    :param model_path: Designated model path.
-    :param steps: Current number of steps in training process.
-    :param saver: Tensorflow saver for session.
-    """
+
     last_checkpoint = model_path + '/model.cptk'
     saver.save(sess=sess, save_path=last_checkpoint)
     tf.train.write_graph(sess.graph_def, model_path, 'raw_graph_def.pb', as_text=False)
@@ -70,12 +54,7 @@ def save_model(sess, saver, model_path=""):
 
 
 def export_graph(model_path, env_name="env", target_nodes="action"):
-    """
-    Exports latest saved model to .bytes format for Unity embedding.
-    :param model_path: path of model checkpoints.
-    :param env_name: Name of associated Learning Environment.
-    :param target_nodes: Comma separated string of needed output nodes for embedded graph.
-    """
+
     ckpt = tf.train.get_checkpoint_state(model_path)
     freeze_graph.freeze_graph(input_graph=model_path + '/raw_graph_def.pb',
                               input_binary=True,
@@ -87,20 +66,7 @@ def export_graph(model_path, env_name="env", target_nodes="action"):
 
 
 def freeze_session(session, keep_var_names=None, output_names=None, clear_devices=True):
-    """
-    Freezes the state of a session into a pruned computation graph.
 
-    Creates a new computation graph where variable nodes are replaced by
-    constants taking their current value in the session. The new graph will be
-    pruned so subgraphs that are not necessary to compute the requested
-    outputs are removed.
-    @param session The TensorFlow session to be frozen.
-    @param keep_var_names A list of variable names that should not be frozen,
-                          or None to freeze all the variables in the graph.
-    @param output_names Names of the relevant graph outputs.
-    @param clear_devices Remove the device directives from the graph for better portability.
-    @return The frozen graph definition.
-    """
     from tensorflow.python.framework.graph_util import convert_variables_to_constants
     graph = session.graph
     with graph.as_default():
@@ -121,20 +87,15 @@ CallBack = keras.callbacks.TensorBoard(log_dir='./Logs', histogram_freq=1, batch
                                         write_grads=False, write_images=False, embeddings_freq=0,
                                         embeddings_layer_names=None, embeddings_metadata=None)
 
-#with tf.Session() as sess:
-#    sess.run(tf.global_variables_initializer())
-#saver = tf.train.Saver()
 model = Sequential()
 
-#model.input(input_dim=10, name="input")
-
-model.add(Dense(40, input_dim=10, name="dense_one"))
+model.add(Dense(40, input_dim=10))
 model.add(Activation('relu'))
 model.add(Dropout(dropout))
-model.add(Dense(40, name="dense_two"))
+model.add(Dense(40))
 model.add(Activation('relu'))
 model.add(Dropout(dropout))
-model.add(Dense(7, activation='softmax'))
+model.add(Dense(7))
 model.summary()
 model.compile(loss='sparse_categorical_crossentropy',
               optimizer=adam,

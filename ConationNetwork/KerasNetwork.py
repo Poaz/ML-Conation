@@ -89,10 +89,10 @@ CallBack = keras.callbacks.TensorBoard(log_dir='./Logs', histogram_freq=1, batch
 
 model = Sequential()
 
-model.add(Dense(40, input_dim=10))
+model.add(Dense(20, input_dim=10))
 model.add(Activation('relu'))
 model.add(Dropout(dropout))
-model.add(Dense(40))
+model.add(Dense(10))
 model.add(Activation('relu'))
 model.add(Dropout(dropout))
 model.add(Dense(7))
@@ -106,7 +106,7 @@ model.compile(loss='sparse_categorical_crossentropy',
 one_hot_labels = keras.utils.to_categorical(train_label, num_classes=classes)
 
 #, callbacks=[CallBack]
-model.fit(train_feature, train_label, epochs=epochs, batch_size=batchSize)
+model.fit(train_feature, train_label, epochs=epochs, batch_size=batchSize, callbacks=[CallBack], validation_split=validationSplit)
 
 loss_and_metrics = model.evaluate(test_feature, test_label, batch_size=128)
 print(loss_and_metrics)

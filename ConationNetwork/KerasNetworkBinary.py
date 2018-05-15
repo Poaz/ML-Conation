@@ -1,4 +1,4 @@
-from keras.layers import Dense, Dropout, Activation, LSTM
+from keras.layers import Dense, Dropout, Activation, LSTM, BatchNormalization, LeakyReLU
 from keras.optimizers import SGD, Adam
 from keras.models import Sequential
 from keras.layers import Dense
@@ -8,10 +8,13 @@ import sklearn.model_selection as sk
 import tensorflow as tf
 from tensorflow.python.tools import freeze_graph
 from keras import backend as K
+from keras.wrappers.scikit_learn import KerasClassifier
+from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import StratifiedKFold
 
 
 ##############################################################################
-dropout = 0.3
+dropout = 0.25
 epochs = 50
 batchSize = 128
 validationSplit = 0.15
@@ -35,15 +38,31 @@ def load_data(label_name='ConationLevel'):
                         names=CSV_COLUMN_NAMES,
                         header=0, sep=',')
 
-    train_features, test_features = sk.train_test_split(train, test_size=0.30, random_state=42)
+    train_features, test_features = sk.train_test_split(train, test_size=0.20, random_state=42)
     train_features = train_features.drop(['ConationLevel'], axis=1)
     test_features = test_features.drop(['ConationLevel'], axis=1)
 
-    train_label, test_label = sk.train_test_split(train.pop(label_name), test_size=0.30, random_state=42)
+    train_label, test_label = sk.train_test_split(train.pop(label_name), test_size=0.20, random_state=42)
 
     # Return four DataFrames.
     return (train_features, train_label), (test_features, test_label)
 
+def load_data_one_set(label_name='ConationLevel'):
+    CSV_COLUMN_NAMES = ['Gaze 3D position left X', 'Gaze 3D position left Y', 'Gaze 3D position left Z',
+                        'Gaze 3D position right X', 'Gaze 3D position right Y', 'Gaze 3D position right Z',
+                        'Pupil diameter left', 'Pupil diameter right', 'HR', 'GSR', 'ConationLevel']
+
+    train_path = "Binary.csv"
+
+    # Parse the local CSV file.
+    data = pd.read_csv(filepath_or_buffer=train_path,
+                        names=CSV_COLUMN_NAMES,
+                        header=0, sep=',')
+
+    dataset_features = data.drop(['ConationLevel'], axis=1)
+    dataset_labels = data.pop(label_name)
+
+    return (dataset_features, dataset_labels)
 
 def save_model(sess, saver, model_path=""):
 
@@ -87,34 +106,47 @@ CallBack = keras.callbacks.TensorBoard(log_dir='./Logs', histogram_freq=1, batch
                                         write_grads=False, write_images=False, embeddings_freq=0,
                                         embeddings_layer_names=None, embeddings_metadata=None)
 
+def Keras_model():
+    model = Sequential()
+    model.add(Dense(20, input_dim=10, kernel_initializer='normal'))
+    model.add(BatchNormalization())
+    model.add(Dropout(dropout))
+    model.add(Dense(20, activation='relu'))
+    model.add(Dropout(dropout))
+    model.add(Dense(10, activation='relu'))
+    model.add(Dense(1, activation='sigmoid'))
 
-
-model = Sequential()
-model.add(Dense(20, input_dim=10))
-model.add(Activation('relu'))
-model.add(Dropout(dropout))
-model.add(Dense(10))
-model.add(Activation('relu'))
-model.add(Dropout(dropout))
-model.add(Dense(1))
-model.add(Activation('sigmoid'))
-model.summary()
-model.compile(loss='binary_crossentropy',
+    model.summary()
+    model.compile(loss='binary_crossentropy',
               optimizer=adam,
               metrics=['accuracy'])
+    return model
 
 (train_feature, train_label), (test_feature, test_label) = load_data()
 
-one_hot_labels = keras.utils.to_categorical(train_label, num_classes=classes)
-
 #, callbacks=[CallBack]
+
+#Train and evaluate model
+model = Keras_model()
 model.fit(train_feature, train_label, epochs=epochs, batch_size=batchSize)
-
 loss_and_metrics = model.evaluate(test_feature, test_label, batch_size=128)
-print(loss_and_metrics)
 
+
+#Print results
+print("\n" + "Loss: " + str(loss_and_metrics[0]) + "\n" + "Accuracy: " + str(loss_and_metrics[1]*100) + "%")
+
+#Save model
 model.save('ConationModel.HDF5')
 
-# Create, compile and train model...
 #frozen_graph = freeze_session(K.get_session(), output_names=[out.op.name for out in model.outputs])
 #tf.train.write_graph(frozen_graph, model_path, "my_model.pb", as_text=False)
+
+
+"""
+(train_feature, train_label) = load_data_one_set()
+one_hot_labels = keras.utils.to_categorical(train_label, num_classes=classes)
+estimator = KerasClassifier(build_fn=Keras_model(), epochs=epochs, batch_size=batchSize, verbose=0)
+kfold = StratifiedKFold(n_splits=10, shuffle=True)
+results = cross_val_score(estimator, train_feature, train_label, cv=kfold)
+print("Results: %.2f%% (%.2f%%)" % (results.mean()*100, results.std()*100))
+"""

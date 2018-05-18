@@ -41,6 +41,10 @@ def load_data(label_name='ConationLevel'):
     train_features, test_features = sk.train_test_split(train, test_size=0.20, random_state=42)
     train_features = train_features.drop(['ConationLevel'], axis=1)
     test_features = test_features.drop(['ConationLevel'], axis=1)
+    #train_features = train_features.drop(['HR'], axis=1)
+    #test_features = test_features.drop(['HR'], axis=1)
+    #train_features = train_features.drop(['GSR'], axis=1)
+    #test_features = test_features.drop(['GSR'], axis=1)
 
     train_label, test_label = sk.train_test_split(train.pop(label_name), test_size=0.20, random_state=42)
 
@@ -108,12 +112,12 @@ CallBack = keras.callbacks.TensorBoard(log_dir='./Logs', histogram_freq=1, batch
 
 def Keras_model():
     model = Sequential()
-    model.add(Dense(20, input_dim=10, kernel_initializer='normal'))
+    model.add(Dense(20, input_dim=8, kernel_initializer='normal'))
     model.add(BatchNormalization())
     model.add(Dropout(dropout))
-    model.add(Dense(20, activation='relu'))
+    model.add(Dense(20, activation='sigmoid'))
     model.add(Dropout(dropout))
-    model.add(Dense(10, activation='relu'))
+    model.add(Dense(10, activation='sigmoid'))
     model.add(Dense(1, activation='sigmoid'))
 
     model.summary()

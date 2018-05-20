@@ -56,9 +56,10 @@ def prep_data(filename):
 
 
 # gathering file
-    for x in range(len(d)):
+    for x in range(len(d)): #
         for y in range(0, 10):
             gathered[x][y] = '.'.join( [split[x][y*2],split[x][y*2+1]])
+
 
 
         gathered[x].append(',')
@@ -104,7 +105,7 @@ def prep_data(filename):
 
 
         sentence = ""
-        for z in range(1,len(gathered[x])):
+        for z in range(0,len(gathered[x])):
 
             sentence +=gathered[x][z]
             if(z<9):
@@ -112,7 +113,7 @@ def prep_data(filename):
 
         if x != 0:
             sentences[x] = sentence
-    print(sentences[0])
+    #print(sentences[2])
 
     #print(sentences[3])
 
@@ -148,7 +149,6 @@ for x in range(0,9):
     #prep_data(filebase + str(enum) + ".txt")
     write_to_file(prep_data(filebase + str(enum) + ".txt"), newFileName+ str(enum) + ".txt")
     enum +=1
-
 
 
 

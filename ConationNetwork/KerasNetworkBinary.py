@@ -29,9 +29,9 @@ def load_data(label_name='ConationLevel'):
 
     CSV_COLUMN_NAMES = ['Gaze 3D position left X', 'Gaze 3D position left Y', 'Gaze 3D position left Z',
                         'Gaze 3D position right X', 'Gaze 3D position right Y', 'Gaze 3D position right Z',
-                        'Pupil diameter left', 'Pupil diameter right', 'HR', 'GSR', 'ConationLevel']
+                        'Pupil diameter left', 'Pupil diameter right', 'HR', 'GSR', 'ConationLevel', 'PredictedConation']
 
-    train_path = "Binary.csv"
+    train_path = "CombinedData_Data3.csv"
 
     # Parse the local CSV file.
     train = pd.read_csv(filepath_or_buffer=train_path,
@@ -41,8 +41,8 @@ def load_data(label_name='ConationLevel'):
     train_features, test_features = sk.train_test_split(train, test_size=0.20, random_state=42)
     train_features = train_features.drop(['ConationLevel'], axis=1)
     test_features = test_features.drop(['ConationLevel'], axis=1)
-    #train_features = train_features.drop(['HR'], axis=1)
-    #test_features = test_features.drop(['HR'], axis=1)
+    train_features = train_features.drop(['PredictedConation'], axis=1)
+    test_features = test_features.drop(['PredictedConation'], axis=1)
     #train_features = train_features.drop(['GSR'], axis=1)
     #test_features = test_features.drop(['GSR'], axis=1)
 
@@ -54,9 +54,9 @@ def load_data(label_name='ConationLevel'):
 def load_data_one_set(label_name='ConationLevel'):
     CSV_COLUMN_NAMES = ['Gaze 3D position left X', 'Gaze 3D position left Y', 'Gaze 3D position left Z',
                         'Gaze 3D position right X', 'Gaze 3D position right Y', 'Gaze 3D position right Z',
-                        'Pupil diameter left', 'Pupil diameter right', 'HR', 'GSR', 'ConationLevel']
+                        'Pupil diameter left', 'Pupil diameter right', 'HR', 'GSR', 'ConationLevel', 'PredictedConation']
 
-    train_path = "Binary.csv"
+    train_path = "CombinedData_Data3.csv"
 
     # Parse the local CSV file.
     data = pd.read_csv(filepath_or_buffer=train_path,
@@ -112,8 +112,10 @@ CallBack = keras.callbacks.TensorBoard(log_dir='./Logs', histogram_freq=1, batch
 
 def Keras_model():
     model = Sequential()
-    model.add(Dense(20, input_dim=8, kernel_initializer='normal'))
+    model.add(Dense(30, input_dim=10, kernel_initializer='normal'))
     model.add(BatchNormalization())
+    model.add(Dropout(dropout))
+    model.add(Dense(30, activation='sigmoid'))
     model.add(Dropout(dropout))
     model.add(Dense(20, activation='sigmoid'))
     model.add(Dropout(dropout))
@@ -121,6 +123,7 @@ def Keras_model():
     model.add(Dense(1, activation='sigmoid'))
 
     model.summary()
+    #conation 1-4 = 0; 5-7 = 1
     model.compile(loss='binary_crossentropy',
               optimizer=adam,
               metrics=['accuracy'])

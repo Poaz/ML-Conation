@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e0ab9dcd-3852-4f35-96bd-faa8a9983726" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/NetworkViZ.py" />
-      <change beforePath="$PROJECT_DIR$/.idea/ML-Conation.iml" afterPath="$PROJECT_DIR$/.idea/ML-Conation.iml" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/ConationNetwork/ConationModel.HDF5" afterPath="$PROJECT_DIR$/ConationNetwork/ConationModel.HDF5" />
-      <change beforePath="$PROJECT_DIR$/ConationNetwork/DataVisualization.py" afterPath="$PROJECT_DIR$/ConationNetwork/DataVisualization.py" />
-      <change beforePath="$PROJECT_DIR$/ConationNetwork/KerasNetworkBinary.py" afterPath="$PROJECT_DIR$/ConationNetwork/KerasNetworkBinary.py" />
-    </list>
+    <list default="true" id="e0ab9dcd-3852-4f35-96bd-faa8a9983726" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,19 +10,19 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/ML_Conation$DataVisualization.coverage" NAME="DataVisualization Coverage Results" MODIFIED="1526555817683" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ConationNetwork" />
-    <SUITE FILE_PATH="coverage/ML_Conation$KerasNetworkBinary.coverage" NAME="KerasNetworkBinary Coverage Results" MODIFIED="1526630238117" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ConationNetwork" />
     <SUITE FILE_PATH="coverage/ML_Conation$KerasNetwork.coverage" NAME="KerasNetwork Coverage Results" MODIFIED="1526409641673" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ConationNetwork" />
-    <SUITE FILE_PATH="coverage/ML_Conation$NetworkViZ.coverage" NAME="NetworkViZ Coverage Results" MODIFIED="1526636400353" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ML_Conation$sum.coverage" NAME="sum Coverage Results" MODIFIED="1526410076330" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../NaosQGMouse-DataCollecting/Assets/Scripts" />
-    <SUITE FILE_PATH="coverage/ML_Conation$DataConcat.coverage" NAME="DataConcat Coverage Results" MODIFIED="1526554690275" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ConationNetwork" />
+    <SUITE FILE_PATH="coverage/ML_Conation$DataVisualization.coverage" NAME="DataVisualization Coverage Results" MODIFIED="1526555817683" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ConationNetwork" />
+    <SUITE FILE_PATH="coverage/ML_Conation$NetworkViZ.coverage" NAME="NetworkViZ Coverage Results" MODIFIED="1526636400353" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ML_Conation$DataConcat.coverage" NAME="DataConcat Coverage Results" MODIFIED="1526840005686" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ConationNetwork" />
+    <SUITE FILE_PATH="coverage/ML_Conation$KerasNetworkBinary.coverage" NAME="KerasNetworkBinary Coverage Results" MODIFIED="1526850452125" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ConationNetwork" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
       <file leaf-file-name="KerasNetwork.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ConationNetwork/KerasNetwork.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
+            <state relative-caret-position="1462">
               <caret line="95" column="26" lean-forward="false" selection-start-line="95" selection-start-column="26" selection-end-line="95" selection-end-column="26" />
               <folding>
                 <element signature="e#0#57#0" expanded="true" />
@@ -42,8 +34,8 @@
       <file leaf-file-name="DataConcat.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ConationNetwork/DataConcat.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="401">
-              <caret line="58" column="0" lean-forward="true" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
+            <state relative-caret-position="459">
+              <caret line="28" column="47" lean-forward="false" selection-start-line="28" selection-start-column="47" selection-end-line="28" selection-end-column="47" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -54,8 +46,8 @@
       <file leaf-file-name="KerasNetworkBinary.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ConationNetwork/KerasNetworkBinary.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="45" column="58" lean-forward="true" selection-start-line="45" selection-start-column="58" selection-end-line="45" selection-end-column="58" />
+            <state relative-caret-position="204">
+              <caret line="114" column="21" lean-forward="false" selection-start-line="114" selection-start-column="21" selection-end-line="114" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -64,7 +56,7 @@
       <file leaf-file-name="sum.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../NaosQGMouse-DataCollecting/Assets/Scripts/sum.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
+            <state relative-caret-position="340">
               <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
@@ -76,22 +68,10 @@
       <file leaf-file-name="DataVisualization.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ConationNetwork/DataVisualization.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="189">
+            <state relative-caret-position="136">
               <caret line="15" column="29" lean-forward="false" selection-start-line="15" selection-start-column="29" selection-end-line="15" selection-end-column="29" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NetworkViZ.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/NetworkViZ.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="88">
-              <caret line="16" column="46" lean-forward="true" selection-start-line="16" selection-start-column="46" selection-end-line="16" selection-end-column="46" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -117,12 +97,12 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/ConationNetwork/DataConcat.py" />
         <option value="$PROJECT_DIR$/../NaosQGMouse-DataCollecting/Assets/Scripts/sum.py" />
         <option value="$PROJECT_DIR$/ConationNetwork/KerasNetwork.py" />
         <option value="$PROJECT_DIR$/ConationNetwork/DataVisualization.py" />
-        <option value="$PROJECT_DIR$/ConationNetwork/KerasNetworkBinary.py" />
         <option value="$PROJECT_DIR$/NetworkViZ.py" />
+        <option value="$PROJECT_DIR$/ConationNetwork/DataConcat.py" />
+        <option value="$PROJECT_DIR$/ConationNetwork/KerasNetworkBinary.py" />
       </list>
     </option>
   </component>
@@ -133,7 +113,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-8" />
+    <option name="x" value="-1812" />
+    <option name="y" value="6" />
     <option name="width" value="1936" />
     <option name="height" value="1056" />
   </component>
@@ -152,8 +133,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -170,6 +149,8 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -190,7 +171,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.NetworkViZ">
+  <component name="RunManager" selected="Python.KerasNetworkBinary">
     <configuration name="DataConcat" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -295,10 +276,10 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.NetworkViZ" />
-        <item index="1" class="java.lang.String" itemvalue="Python.KerasNetworkBinary" />
-        <item index="2" class="java.lang.String" itemvalue="Python.DataVisualization" />
-        <item index="3" class="java.lang.String" itemvalue="Python.DataConcat" />
+        <item index="0" class="java.lang.String" itemvalue="Python.KerasNetworkBinary" />
+        <item index="1" class="java.lang.String" itemvalue="Python.DataConcat" />
+        <item index="2" class="java.lang.String" itemvalue="Python.NetworkViZ" />
+        <item index="3" class="java.lang.String" itemvalue="Python.DataVisualization" />
         <item index="4" class="java.lang.String" itemvalue="Python.sum" />
       </list>
     </recent_temporary>
@@ -320,19 +301,18 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
-    <editor active="true" />
+    <frame x="-1688" y="19" width="1696" height="1026" extended-state="6" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21322691" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24719101" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295325" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15343347" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18154034" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28667483" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3990878" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -357,6 +337,82 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/../NaosQGMouse-DataCollecting/Assets/Scripts/sum.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ConationNetwork/DataVisualization.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="15" column="29" lean-forward="false" selection-start-line="15" selection-start-column="29" selection-end-line="15" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ConationNetwork/KerasNetworkBinary.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="47" column="0" lean-forward="true" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ConationNetwork/KerasNetwork.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1462">
+          <caret line="95" column="26" lean-forward="false" selection-start-line="95" selection-start-column="26" selection-end-line="95" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#57#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ConationNetwork/DataConcat.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="969">
+          <caret line="58" column="0" lean-forward="true" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../NaosQGMouse-DataCollecting/Assets/Scripts/sum.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ConationNetwork/DataVisualization.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="15" column="29" lean-forward="false" selection-start-line="15" selection-start-column="29" selection-end-line="15" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ConationNetwork/KerasNetworkBinary.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="45" column="0" lean-forward="true" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ConationNetwork/KerasNetwork.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1806">
@@ -632,7 +688,7 @@
     <entry file="file://$PROJECT_DIR$/../NaosQGMouse-DataCollecting/Assets/Scripts/Predictor.py" />
     <entry file="file://$PROJECT_DIR$/../NaosQGMouse-DataCollecting/Assets/Scripts/sum.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
+        <state relative-caret-position="340">
           <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
@@ -641,24 +697,10 @@
       </provider>
     </entry>
     <entry file="file://D:/Google Drive/School/AAU/8. Semester/ALGORITHMS, DATA STRUCTURES AND SOFTWARE ENGINEERING FOR MEDIA TECHNOLOGY/KaggleExercise/script.py" />
-    <entry file="file://$PROJECT_DIR$/ConationNetwork/KerasNetwork.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="95" column="26" lean-forward="false" selection-start-line="95" selection-start-column="26" selection-end-line="95" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#57#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/_feed_forward.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/_feed_forward.png" />
     <entry file="file://$PROJECT_DIR$/ConationNetwork/DataVisualization.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
+        <state relative-caret-position="136">
           <caret line="15" column="29" lean-forward="false" selection-start-line="15" selection-start-column="29" selection-end-line="15" selection-end-column="29" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
@@ -666,26 +708,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/NetworkViZ.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="16" column="46" lean-forward="true" selection-start-line="16" selection-start-column="46" selection-end-line="16" selection-end-column="46" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ConationNetwork/DataConcat.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="401">
-          <caret line="58" column="0" lean-forward="true" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/NetworkViZ.py" />
     <entry file="file://$PROJECT_DIR$/ConationNetwork/Binary.csv">
       <provider selected="true" editor-type-id="LargeFileEditor">
         <state relative-caret-position="126">
@@ -693,10 +716,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/ConationNetwork/DataConcat.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="28" column="47" lean-forward="false" selection-start-line="28" selection-start-column="47" selection-end-line="28" selection-end-column="47" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ConationNetwork/KerasNetwork.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1462">
+          <caret line="95" column="26" lean-forward="false" selection-start-line="95" selection-start-column="26" selection-end-line="95" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#57#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ConationNetwork/KerasNetworkBinary.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="45" column="58" lean-forward="true" selection-start-line="45" selection-start-column="58" selection-end-line="45" selection-end-column="58" />
+        <state relative-caret-position="204">
+          <caret line="114" column="21" lean-forward="false" selection-start-line="114" selection-start-column="21" selection-end-line="114" selection-end-column="21" />
           <folding />
         </state>
       </provider>

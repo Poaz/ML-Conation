@@ -5,7 +5,7 @@ import os
 #Gaze 3D position left X, Gaze 3D position left Y, Gaze 3D position left Z, Gaze 3D position right X,Gaze 3D position right Y,Gaze 3D position right Z,Pupil diameter left,Pupil diameter right, HR, GSR, ConationLevel
 
 #Path to data folder
-path = r"C:\Users\dines\Desktop\Projects\ML-Conation\ConationNetwork\Data\\"
+path = r"D:\Projects\ML-Conation\ConationNetwork\Data3\\"
 
 # List to hold file names
 FileNames = []
@@ -23,12 +23,12 @@ def GetFile(fnombre):
     # Parse the txt file
     df = pd.read_csv(location, header=0, sep=',')
 
-    df = df[~(df == 0.0).any(axis=1)]
+    #df = df[~(df == 0.0).any(axis=1)]
 
-    baselinelist = df.iloc[1:1000, [8]].mean(axis=0)
-    df.HR = df[df.columns[[8]]] - baselinelist
+    #baselinelist = df.iloc[1:1000, [8]].mean(axis=0)
+    #df.HR = df[df.columns[[8]]] - baselinelist
 
-    df = df.drop(df.columns[[9, 10]], axis=1)
+    #df = df.drop(df.columns[[9, 10]], axis=1)
 
 
     # Tag record to file name
@@ -52,13 +52,13 @@ big_df.fillna(0)
 big_df.to_csv('CombinedData.csv', index=False)
 
 
-dfnew = pd.read_csv(r'C:\Users\dines\Desktop\Projects\ML-Conation\ConationNetwork\Data\\CombinedData.csv', header=0, sep=',')
-dfold = pd.read_csv(r'C:\Users\dines\Desktop\Projects\ML-Conation\ConationNetwork\Data\\CombinedDataold.csv', header=0, sep=',')
+#dfnew = pd.read_csv(r'C:\Users\dines\Desktop\Projects\ML-Conation\ConationNetwork\Data\\CombinedData.csv', header=0, sep=',')
+#dfold = pd.read_csv(r'C:\Users\dines\Desktop\Projects\ML-Conation\ConationNetwork\Data\\CombinedDataold.csv', header=0, sep=',')
 
-dfnew[dfnew.columns[[0,1,2,3,4,5]]] = dfold[dfold.columns[[0,1,2,3,4,5]]]
+#dfnew[dfnew.columns[[0,1,2,3,4,5]]] = dfold[dfold.columns[[0,1,2,3,4,5]]]
 
-dfnew.to_csv('CombinedDataOldNew.csv', index=False)
-print('Done')
+#dfnew.to_csv('CombinedDataOldNew.csv', index=False)
+#print('Done')
 
 
 #1:len(big_df)-1

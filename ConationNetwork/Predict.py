@@ -1,7 +1,18 @@
 import keras as keras
 import pandas as pd
 import numpy as np
+import DataVisualization as plot
 
+
+###################################################################################
+
+# Name of data file to load and make predictions on
+data_file_name = "Data01_8.txt"
+
+# Name of output file
+output_file_name = "Predictions_P10.csv"
+
+####################################################################################
 
 
 def load_data_one_set(label_name='ConationLevel'):
@@ -10,7 +21,7 @@ def load_data_one_set(label_name='ConationLevel'):
                         'Pupil diameter left', 'Pupil diameter right', 'HR', 'GSR', 'ConationLevel', 'PredictedConation'
                         ,'GameState', 'TimeSinceStart']
 
-    train_path = "Data04_9.csv"
+    train_path = data_file_name
 
     # Parse the local CSV file.
     data = pd.read_csv(filepath_or_buffer=train_path,
@@ -27,21 +38,22 @@ def load_data_one_set(label_name='ConationLevel'):
 
     return (dataset_features, dataset_labels)
 
-model = keras.models.load_model(r'C:\Users\dines\Desktop\Projects\ML-Conation\ConationNetwork\ConationModel.HDF5')
+model = keras.models.load_model(r'ConationModel.HDF5')
 
-(predict_features, predict_labels) = load_data_one_set()
+(Data_features, Data_labels) = load_data_one_set()
 
-ymax = model.predict_classes(predict_features, batch_size=None, verbose=0, steps=None)
-#ymax = model.evaluate(predict_features, predict_labels, batch_size=128)
-predict_labels = predict_labels.astype(np.int32)
+Predictions = model.predict_classes(Data_features, batch_size=None, verbose=0, steps=None)
+
+"""
+Data_labels = Data_labels.astype(np.int32)
 truePred = 0
 falsePred = 0
 
-print(np.sum(ymax))
-print(np.sum(predict_labels))
+print(np.sum(Predictions))
+print(np.sum(Data_labels))
 
-for i in range(len(ymax)):
-    if predict_labels[i] == ymax[i][0]:
+for i in range(len(Predictions)):
+    if Data_labels[i] == Predictions[i][0]:
         truePred +=1
     else:
         falsePred +=1
@@ -49,4 +61,9 @@ for i in range(len(ymax)):
 print("True: " + str(truePred))
 print("False: " + str(falsePred))
 print("Accuracy: " + str(truePred/(truePred+falsePred)))
+"""
 
+output_df = pd.DataFrame(Predictions)
+output_df.to_csv(output_file_name, index=False)
+
+plot.plot(data_file_name, output_file_name)

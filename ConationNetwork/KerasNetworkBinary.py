@@ -57,7 +57,7 @@ def load_data_one_set(label_name='ConationLevel'):
                         'Pupil diameter left', 'Pupil diameter right', 'HR', 'GSR', 'ConationLevel', 'PredictedConation'
                         ,'GameState', 'TimeSinceStart']
 
-    train_path = "Data04_9.csv"
+    train_path = "CombinedData_Data2.csv"
 
     # Parse the local CSV file.
     data = pd.read_csv(filepath_or_buffer=train_path,
@@ -73,6 +73,7 @@ def load_data_one_set(label_name='ConationLevel'):
     dataset_labels = data.pop(label_name)
 
     return (dataset_features, dataset_labels)
+
 
 def save_model(sess, saver, model_path=""):
 
@@ -153,13 +154,3 @@ model.save('ConationModel.HDF5')
 
 #frozen_graph = freeze_session(K.get_session(), output_names=[out.op.name for out in model.outputs])
 #tf.train.write_graph(frozen_graph, model_path, "my_model.pb", as_text=False)
-
-
-"""
-(train_feature, train_label) = load_data_one_set()
-one_hot_labels = keras.utils.to_categorical(train_label, num_classes=classes)
-estimator = KerasClassifier(build_fn=Keras_model(), epochs=epochs, batch_size=batchSize, verbose=0)
-kfold = StratifiedKFold(n_splits=10, shuffle=True)
-results = cross_val_score(estimator, train_feature, train_label, cv=kfold)
-print("Results: %.2f%% (%.2f%%)" % (results.mean()*100, results.std()*100))
-"""

@@ -8,42 +8,55 @@ from sklearn.decomposition import PCA
 import time
 
 
+def plot(data_file, prediction_file):
+    CSV_COLUMN_NAMES = ['Gaze 3D position left X', 'Gaze 3D position left Y', 'Gaze 3D position left Z',
+                        'Gaze 3D position right X', 'Gaze 3D position right Y', 'Gaze 3D position right Z',
+                        'Pupil diameter left', 'Pupil diameter right', 'HR', 'GSR', 'ConationLevel',
+                        'PredictedConation', 'GameState', 'TimeSinceStart']
 
-CSV_COLUMN_NAMES = ['Gaze 3D position left X', 'Gaze 3D position left Y', 'Gaze 3D position left Z',
-                    'Gaze 3D position right X', 'Gaze 3D position right Y', 'Gaze 3D position right Z',
-                    'Pupil diameter left', 'Pupil diameter right', 'HR', 'GSR', 'ConationLevel', 'PredictedConation','GameState',
-                    'TimeSinceStart']
+    DataPath = data_file
 
-DataPath = "Data01_8.txt"
+    # Parse the local CSV file.
+    data = pd.read_csv(filepath_or_buffer=DataPath,
+                       names=CSV_COLUMN_NAMES,
+                       header=0, sep=',')
 
-# Parse the local CSV file.
-data = pd.read_csv(filepath_or_buffer=DataPath,
-                   names=CSV_COLUMN_NAMES,
-                   header=0, sep=',')
-#sns.barplot(y=data["ConationLevel"], x=data["TimeSinceStart"], hue=data["GameState"])
+    DataPath2 = prediction_file
 
-DataPath2 = "PredictedData.csv"
+    # Parse the local CSV file.
+    predictions = pd.read_csv(filepath_or_buffer=DataPath2,
+                       header=0, sep=',')
 
-# Parse the local CSV file.
-predicions = pd.read_csv(filepath_or_buffer=DataPath2,
-                   header=0, sep=',')
+    predictions.replace(0, 2.5)
+    predictions.replace(1, 3.5)
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    sns.lmplot(y="ConationLevel", x="TimeSinceStart", hue="GameState", fit_reg=False, data=data, scatter_kws={"s": 10})
 
-sns.lmplot(y="ConationLevel", x="TimeSinceStart", hue="GameState", fit_reg=False, data=data)
-
-#print(predicions)
-
-sns.regplot(y=predicions['0'], x=data["TimeSinceStart"], fit_reg=False)
-
-
-plt.show()
+    sns.regplot(y=predictions['0'], x=data["TimeSinceStart"], fit_reg=False, scatter_kws={"s": 5})
 
 
+    plt.axhline(y=3, ls=":", c=".5")
+    ax.set_xlabel('Time Since Start')
+    ax.set_ylabel('Conation Level')
 
-
+    plt.show()
 
 
 
 def corr_plots():
+    CSV_COLUMN_NAMES = ['Gaze 3D position left X', 'Gaze 3D position left Y', 'Gaze 3D position left Z',
+                        'Gaze 3D position right X', 'Gaze 3D position right Y', 'Gaze 3D position right Z',
+                        'Pupil diameter left', 'Pupil diameter right', 'HR', 'GSR', 'ConationLevel',
+                        'PredictedConation', 'GameState',
+                        'TimeSinceStart']
+
+    DataPath = "Data01_8.txt"
+
+    # Parse the local CSV file.
+    data = pd.read_csv(filepath_or_buffer=DataPath,
+                       names=CSV_COLUMN_NAMES,
+                       header=0, sep=',')
     cor = data.corr() #Calculate the correlation of the above variables
     plot = sns.heatmap(cor) #Plot the correlation as heat map
 

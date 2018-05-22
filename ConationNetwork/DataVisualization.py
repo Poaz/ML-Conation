@@ -29,14 +29,18 @@ def plot(data_file, prediction_file):
 
     predictions.replace(0, 2.5)
     predictions.replace(1, 3.5)
+
+    ConData = pd.concat([data, predictions], axis=1)
+
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    sns.lmplot(y="ConationLevel", x="TimeSinceStart", hue="GameState", fit_reg=False, data=data, scatter_kws={"s": 10})
+    sns.lmplot(y='0', x='TimeSinceStart', hue="GameState", fit_reg=False, scatter_kws={"s": 5}, data=ConData,
+               line_kws={"s": 1})
 
-    sns.regplot(y=predictions['0'], x=data["TimeSinceStart"], fit_reg=False, scatter_kws={"s": 5})
+    #sns.regplot(y=predictions['0'], x=data["TimeSinceStart"], fit_reg=False, scatter_kws={"s": 5})
 
 
-    plt.axhline(y=3, ls=":", c=".5")
+    #plt.axhline(y=3, ls=":", c=".5")
     ax.set_xlabel('Time Since Start')
     ax.set_ylabel('Conation Level')
 

@@ -11,24 +11,32 @@ import time
 
 CSV_COLUMN_NAMES = ['Gaze 3D position left X', 'Gaze 3D position left Y', 'Gaze 3D position left Z',
                     'Gaze 3D position right X', 'Gaze 3D position right Y', 'Gaze 3D position right Z',
-                    'Pupil diameter left', 'Pupil diameter right', 'HR', 'GSR', 'ConationLevel']
+                    'Pupil diameter left', 'Pupil diameter right', 'HR', 'GSR', 'ConationLevel', 'PredictedConation','GameState',
+                    'TimeSinceStart']
 
-DataPath = "Binary - Kopi.csv"
-DataPath2 = "Data01.txt"
+DataPath = "Data01_8.txt"
 
 # Parse the local CSV file.
 data = pd.read_csv(filepath_or_buffer=DataPath,
                    names=CSV_COLUMN_NAMES,
                    header=0, sep=',')
-data2 = pd.read_csv(filepath_or_buffer=DataPath2,
-                   names=CSV_COLUMN_NAMES,
+#sns.barplot(y=data["ConationLevel"], x=data["TimeSinceStart"], hue=data["GameState"])
+
+DataPath2 = "PredictedData.csv"
+
+# Parse the local CSV file.
+predicions = pd.read_csv(filepath_or_buffer=DataPath2,
                    header=0, sep=',')
 
+sns.lmplot(y="ConationLevel", x="TimeSinceStart", hue="GameState", fit_reg=False, data=data)
 
-sns.regplot(y=data["ConationLevel"], x=data.index.values, fit_reg=False)
+#print(predicions)
+
+sns.regplot(y=predicions['0'], x=data["TimeSinceStart"], fit_reg=False)
+
+
 plt.show()
-#sns.regplot(y=data2["GDLX"], x=data2.index.values, fit_reg=False)
-#plt.show()
+
 
 
 

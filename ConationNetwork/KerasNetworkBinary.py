@@ -15,7 +15,7 @@ from sklearn.model_selection import StratifiedKFold
 
 ##############################################################################
 dropout = 0.25
-epochs = 2
+epochs = 50
 batchSize = 128
 validationSplit = 0.15
 classes = 2
@@ -153,27 +153,6 @@ model.save('ConationModel.HDF5')
 
 #frozen_graph = freeze_session(K.get_session(), output_names=[out.op.name for out in model.outputs])
 #tf.train.write_graph(frozen_graph, model_path, "my_model.pb", as_text=False)
-
-(predict_features, predict_labels) = load_data_one_set()
-
-ymax = model.predict_classes(predict_features)
-
-truePred = 0
-falsePred = 0
-print(ymax)
-print(predict_labels)
-
-for i in predict_labels:
-    if predict_labels[i] == ymax[i]:
-        truePred +=1
-    else:
-        falsePred +=1
-
-print(truePred)
-print(falsePred)
-
-
-
 
 
 """

@@ -8,7 +8,7 @@ from sklearn.decomposition import PCA
 import time
 
 
-def plot(data_file, prediction_file, aspect, showConation, OriginalFile):
+def plot(data_file, prediction_file, aspect, showConation, OriginalFile, resample_rate):
     CSV_COLUMN_NAMES = ['Gaze 3D position left X', 'Gaze 3D position left Y', 'Gaze 3D position left Z',
                         'Gaze 3D position right X', 'Gaze 3D position right Y', 'Gaze 3D position right Z',
                         'Pupil diameter left', 'Pupil diameter right', 'HR', 'GSR', 'ConationLevel',
@@ -31,6 +31,8 @@ def plot(data_file, prediction_file, aspect, showConation, OriginalFile):
 
     predictions.replace(0, 2.5)
     predictions.replace(1, 3.5)
+    predictions = predictions.iloc[::resample_rate,:]
+    data = data.iloc[::resample_rate, :]
 
     ConData = pd.concat([data, predictions], axis=1)
 

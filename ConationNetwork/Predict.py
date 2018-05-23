@@ -21,6 +21,9 @@ show_Conation = False
 #Path to original file
 OriginalFile = 'Data10_9.txt'
 
+#Sets which nTH row to plot. Example: 50, is sampling every 50th row (1 sample/s)
+resample_rate = 50
+
 ####################################################################################
 
 
@@ -75,4 +78,4 @@ print("Accuracy: " + str(truePred/(truePred+falsePred)))
 output_df = pd.DataFrame(Predictions)
 output_df.to_csv(output_file_name, index=False)
 
-plot.plot(data_file_name, output_file_name, Aspect, show_Conation, OriginalFile)
+plot.plot(data_file_name, output_file_name, Aspect, show_Conation, OriginalFile, resample_rate)

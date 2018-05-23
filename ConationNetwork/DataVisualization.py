@@ -21,13 +21,25 @@ def plot(data_file, prediction_file, aspect, showConation, OriginalFile, resampl
                        names=CSV_COLUMN_NAMES,
                        header=0, sep=',')
 
+
+
+
+
     DataPath2 = prediction_file
 
     # Parse the local CSV file.
     predictions = pd.read_csv(filepath_or_buffer=DataPath2,
                        header=0, sep=',')
 
+    #print( len( data['GameState']))
 
+    GameStateArray = ['ForestDay', 'Cave1', 'Courtyard', 'Frog', 'HumanAgain', 'Shisharoom', 'Cave2', 'ForestNight',
+                      'HeadingToCave']
+
+    #print(data.index)
+    for x in range(0, len(data['GameState']),resample_rate):
+
+        data.loc[x, 'GameState'] = GameStateArray[data.loc[x, 'GameState']]
 
     predictions.replace(0, 2.5)
     predictions.replace(1, 3.5)
@@ -36,11 +48,15 @@ def plot(data_file, prediction_file, aspect, showConation, OriginalFile, resampl
 
     ConData = pd.concat([data, predictions], axis=1)
 
-
+    
     fig = plt.figure()
     ax = fig.add_subplot(111)
+
+    #test legend
     sns.lmplot(y='0', x='TimeSinceStart', hue="GameState", fit_reg=False, scatter_kws={"s": 5}, data=ConData,
                line_kws={"s": 1}, aspect=aspect)
+
+
 
     if showConation:
         ConationLevels = pd.read_csv(filepath_or_buffer=OriginalFile,

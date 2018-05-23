@@ -7,10 +7,19 @@ import DataVisualization as plot
 ###################################################################################
 
 # Name of data file to load and make predictions on
-data_file_name = "Data01_8.txt"
+data_file_name = "Data10_9.csv"
 
 # Name of output file
-output_file_name = "Predictions_P10.csv"
+output_file_name = "Predictions_P11.csv"
+
+# Sets how wide the plot is. Higher is wider
+Aspect = 4
+
+#Show conationLevels, only possible on some data
+show_Conation = False
+
+#Path to original file
+OriginalFile = 'Data10_9.txt'
 
 ####################################################################################
 
@@ -66,4 +75,4 @@ print("Accuracy: " + str(truePred/(truePred+falsePred)))
 output_df = pd.DataFrame(Predictions)
 output_df.to_csv(output_file_name, index=False)
 
-plot.plot(data_file_name, output_file_name)
+plot.plot(data_file_name, output_file_name, Aspect, show_Conation, OriginalFile)

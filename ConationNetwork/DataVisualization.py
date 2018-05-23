@@ -8,7 +8,7 @@ from sklearn.decomposition import PCA
 import time
 
 
-def plot(data_file, prediction_file):
+def plot(data_file, prediction_file, aspect, showConation, OriginalFile):
     CSV_COLUMN_NAMES = ['Gaze 3D position left X', 'Gaze 3D position left Y', 'Gaze 3D position left Z',
                         'Gaze 3D position right X', 'Gaze 3D position right Y', 'Gaze 3D position right Z',
                         'Pupil diameter left', 'Pupil diameter right', 'HR', 'GSR', 'ConationLevel',
@@ -27,17 +27,23 @@ def plot(data_file, prediction_file):
     predictions = pd.read_csv(filepath_or_buffer=DataPath2,
                        header=0, sep=',')
 
+
+
     predictions.replace(0, 2.5)
     predictions.replace(1, 3.5)
 
     ConData = pd.concat([data, predictions], axis=1)
 
+
     fig = plt.figure()
     ax = fig.add_subplot(111)
     sns.lmplot(y='0', x='TimeSinceStart', hue="GameState", fit_reg=False, scatter_kws={"s": 5}, data=ConData,
-               line_kws={"s": 1})
+               line_kws={"s": 1}, aspect=aspect)
 
-    #sns.regplot(y=predictions['0'], x=data["TimeSinceStart"], fit_reg=False, scatter_kws={"s": 5})
+    if showConation:
+        ConationLevels = pd.read_csv(filepath_or_buffer=OriginalFile,
+                                     header=0, sep=',')
+        sns.regplot(y=ConationLevels['ConationLevel'], x=data["TimeSinceStart"], fit_reg=False, scatter_kws={"s": 5})
 
 
     #plt.axhline(y=3, ls=":", c=".5")
@@ -45,8 +51,12 @@ def plot(data_file, prediction_file):
     ax.set_ylabel('Conation Level')
 
     plt.show()
-
-
+    sns.lmplot(y='HR', x='TimeSinceStart', hue="GameState", fit_reg=False, scatter_kws={"s": 5}, data=ConData,
+               line_kws={"s": 1}, aspect=aspect)
+    plt.show()
+    sns.lmplot(y='GSR', x='TimeSinceStart', hue="GameState", fit_reg=False, scatter_kws={"s": 5}, data=ConData,
+               line_kws={"s": 1}, aspect=aspect)
+    plt.show()
 
 def corr_plots():
     CSV_COLUMN_NAMES = ['Gaze 3D position left X', 'Gaze 3D position left Y', 'Gaze 3D position left Z',

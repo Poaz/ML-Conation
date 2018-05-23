@@ -41,27 +41,27 @@ def plot(data_file, prediction_file, aspect, showConation, OriginalFile, resampl
 
         data.loc[x, 'GameState'] = GameStateArray[data.loc[x, 'GameState']]
 
-    predictions.replace(0, 2.5)
-    predictions.replace(1, 3.5)
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+
+    if showConation:
+        ConationLevels = pd.read_csv(filepath_or_buffer=OriginalFile,
+                                     header=0, sep=',')
+        # sns.regplot(y=ConationLevels['ConationLevel'], x=data["TimeSinceStart"], fit_reg=False, scatter_kws={"s": 5})
+        sns.lmplot(y='ConationLevel', x='TimeSinceStart', hue="GameState", fit_reg=False, scatter_kws={"s": 5},
+                   data=ConationLevels,
+                   line_kws={"s": 1}, aspect=aspect)
+        predictions = predictions.replace(0, 2.5)
+        predictions = predictions.replace(1, 3.5)
+
     predictions = predictions.iloc[::resample_rate,:]
     data = data.iloc[::resample_rate, :]
 
     ConData = pd.concat([data, predictions], axis=1)
 
-    
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-
     #test legend
     sns.lmplot(y='0', x='TimeSinceStart', hue="GameState", fit_reg=False, scatter_kws={"s": 5}, data=ConData,
                line_kws={"s": 1}, aspect=aspect)
-
-
-
-    if showConation:
-        ConationLevels = pd.read_csv(filepath_or_buffer=OriginalFile,
-                                     header=0, sep=',')
-        sns.regplot(y=ConationLevels['ConationLevel'], x=data["TimeSinceStart"], fit_reg=False, scatter_kws={"s": 5})
 
 
     #plt.axhline(y=3, ls=":", c=".5")

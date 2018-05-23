@@ -7,7 +7,7 @@ import DataVisualization as plot
 ###################################################################################
 
 # Name of data file to load and make predictions on
-data_file_name = "Data10_9.csv"
+data_file_name = "Data10_9.txt"
 
 # Name of output file
 output_file_name = "Predictions_P11.csv"
@@ -16,7 +16,7 @@ output_file_name = "Predictions_P11.csv"
 Aspect = 4
 
 #Show conationLevels, only possible on some data
-show_Conation = False
+show_Conation = True
 
 #Path to original file
 OriginalFile = 'Data10_9.txt'
@@ -56,7 +56,9 @@ model = keras.models.load_model(r'ConationModel.HDF5')
 
 Predictions = model.predict_classes(Data_features, batch_size=None, verbose=0, steps=None)
 
-"""
+Data_labels = Data_labels.replace([1, 2, 3, 4], 0)
+Data_labels = Data_labels.replace([5, 6, 7], 1)
+
 Data_labels = Data_labels.astype(np.int32)
 truePred = 0
 falsePred = 0
@@ -73,7 +75,7 @@ for i in range(len(Predictions)):
 print("True: " + str(truePred))
 print("False: " + str(falsePred))
 print("Accuracy: " + str(truePred/(truePred+falsePred)))
-"""
+
 
 output_df = pd.DataFrame(Predictions)
 output_df.to_csv(output_file_name, index=False)

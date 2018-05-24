@@ -50,15 +50,58 @@ def load_data_one_set(label_name='ConationLevel'):
 
     return (dataset_features, dataset_labels)
 
+def load_Train_Test_Data():
+    CSV_COLUMN_NAMES = ['Gaze 3D position left X', 'Gaze 3D position left Y', 'Gaze 3D position left Z',
+                        'Gaze 3D position right X', 'Gaze 3D position right Y', 'Gaze 3D position right Z',
+                        'Pupil diameter left', 'Pupil diameter right', 'HR', 'GSR', 'ConationLevel']
+
+    CSV_COLUMN_NAMES_TEST = ['Gaze 3D position left X', 'Gaze 3D position left Y', 'Gaze 3D position left Z',
+                        'Gaze 3D position right X', 'Gaze 3D position right Y', 'Gaze 3D position right Z',
+                        'Pupil diameter left', 'Pupil diameter right', 'HR', 'GSR', 'ConationLevel',
+                        'PredictedConation', 'GameState', 'TimeSinceStart']
+
+
+    train_path = "TrainData.csv"
+
+    # Parse the local CSV file.
+    train = pd.read_csv(filepath_or_buffer=train_path,
+                        names=CSV_COLUMN_NAMES,
+                        header=0, sep=',')
+
+    train_feature = train.drop(['ConationLevel'], axis=1)
+
+    train_label = train.pop('ConationLevel')
+    train_label = train_label.replace([1, 2, 3, 4], 0)
+    train_label = train_label.replace([5, 6, 7], 1)
+
+    test_path = "TestData.csv"
+
+    # Parse the local CSV file.
+    test = pd.read_csv(filepath_or_buffer=test_path,
+                        names=CSV_COLUMN_NAMES_TEST,
+                        header=0, sep=',')
+
+    test_feature = test.drop(['ConationLevel'], axis=1)
+    test_feature = test_feature.drop(['PredictedConation'], axis=1)
+    test_feature = test_feature.drop(['GameState'], axis=1)
+    test_feature = test_feature.drop(['TimeSinceStart'], axis=1)
+
+    test_label = test.pop('ConationLevel')
+    test_label = test_label.replace([1, 2, 3, 4], 0)
+    test_label = test_label.replace([5, 6, 7], 1)
+
+
+    return(train_feature, train_label), (test_feature, test_label)
+
 model = keras.models.load_model(r'ConationModel_Stacked_LSTM.HDF5')
 
-(Data_features, Data_labels) = load_data_one_set()
+(train_features, train_labels), (test_feature, test_label) = load_Train_Test_Data()
 
-X_train = np.reshape(Data_features.values, (Data_features.values).shape + (1,))
+X_train = np.reshape(test_feature.values, (test_feature.values).shape + (1,))
 
 Predictions = model.predict_classes(X_train , batch_size=64)
 
-Data_labels = Data_labels.replace([1, 2, 3, 4], 0)
+Data_labels = test_label.replace([1, 2, 3, 4], 0)
 Data_labels = Data_labels.replace([5, 6, 7], 1)
 
 Data_labels = Data_labels.astype(np.int32)

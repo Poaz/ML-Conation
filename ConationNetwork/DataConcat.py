@@ -2,7 +2,7 @@ import pandas as pd
 import os
 
 #Path to data folder
-path = r"C:\Users\dines\Desktop\Projects\ML-Conation\ConationNetwork\Data5\\"
+path = r"C:\Users\dines\Desktop\Projects\ML-Conation\ConationNetwork\TestData\\"
 
 # List to hold file names
 FileNames = []
@@ -43,5 +43,5 @@ for i in range(len(df_list)):
 
 #big_df = big_df.append(concated)
 big_df.fillna(0)
-big_df.to_csv('CombinedData.csv', index=False)
+big_df.to_csv('TestData.csv', index=False)
 

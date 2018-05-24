@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e0ab9dcd-3852-4f35-96bd-faa8a9983726" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/ConationNetwork/ScikitRandomForest.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/ConationNetwork/ScikitSVM.py" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/ConationNetwork/Predict.py" afterPath="$PROJECT_DIR$/ConationNetwork/Predict.py" />
-    </list>
+    <list default="true" id="e0ab9dcd-3852-4f35-96bd-faa8a9983726" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -56,7 +51,7 @@
         <entry file="file://$PROJECT_DIR$/ConationNetwork/ScikitRandomForest.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="33">
-              <caret line="88" column="21" lean-forward="true" selection-start-line="88" selection-start-column="21" selection-end-line="88" selection-end-column="21" />
+              <caret line="88" column="21" lean-forward="false" selection-start-line="88" selection-start-column="21" selection-end-line="88" selection-end-column="21" />
               <folding>
                 <element signature="e#0#51#0" expanded="true" />
                 <element signature="e#402#1536#0" expanded="false" />
@@ -70,7 +65,7 @@
         <entry file="file://$PROJECT_DIR$/ConationNetwork/Predict.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1038">
-              <caret line="61" column="47" lean-forward="true" selection-start-line="61" selection-start-column="47" selection-end-line="61" selection-end-column="47" />
+              <caret line="61" column="47" lean-forward="false" selection-start-line="61" selection-start-column="47" selection-end-line="61" selection-end-column="47" />
               <folding />
             </state>
           </provider>
@@ -114,7 +109,7 @@
         <entry file="file://$PROJECT_DIR$/ConationNetwork/KerasNetworkBinary.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-2922">
-              <caret line="63" column="47" lean-forward="true" selection-start-line="63" selection-start-column="47" selection-end-line="63" selection-end-column="47" />
+              <caret line="63" column="47" lean-forward="false" selection-start-line="63" selection-start-column="47" selection-end-line="63" selection-end-column="47" />
               <folding />
             </state>
           </provider>
@@ -744,7 +739,7 @@
     <entry file="file://$PROJECT_DIR$/ConationNetwork/KerasNetworkBinary.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2922">
-          <caret line="63" column="47" lean-forward="true" selection-start-line="63" selection-start-column="47" selection-end-line="63" selection-end-column="47" />
+          <caret line="63" column="47" lean-forward="false" selection-start-line="63" selection-start-column="47" selection-end-line="63" selection-end-column="47" />
           <folding />
         </state>
       </provider>
@@ -770,7 +765,7 @@
     <entry file="file://$PROJECT_DIR$/ConationNetwork/ScikitRandomForest.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="33">
-          <caret line="88" column="21" lean-forward="true" selection-start-line="88" selection-start-column="21" selection-end-line="88" selection-end-column="21" />
+          <caret line="88" column="21" lean-forward="false" selection-start-line="88" selection-start-column="21" selection-end-line="88" selection-end-column="21" />
           <folding>
             <element signature="e#0#51#0" expanded="true" />
             <element signature="e#402#1536#0" expanded="false" />
@@ -803,7 +798,7 @@
     <entry file="file://$PROJECT_DIR$/ConationNetwork/Predict.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1038">
-          <caret line="61" column="47" lean-forward="true" selection-start-line="61" selection-start-column="47" selection-end-line="61" selection-end-column="47" />
+          <caret line="61" column="47" lean-forward="false" selection-start-line="61" selection-start-column="47" selection-end-line="61" selection-end-column="47" />
           <folding />
         </state>
       </provider>

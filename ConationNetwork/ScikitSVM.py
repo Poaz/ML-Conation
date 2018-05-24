@@ -1,20 +1,8 @@
-from keras.layers import Dense, Dropout, Activation, LSTM, BatchNormalization, LeakyReLU
-from keras.optimizers import SGD, Adam
-import keras as keras
-import pandas as pd
-import sklearn.model_selection as sk
-import tensorflow as tf
-from tensorflow.python.tools import freeze_graph
-from keras import backend as K
-from keras.wrappers.scikit_learn import KerasClassifier
 from sklearn.model_selection import cross_val_score
-from sklearn.model_selection import StratifiedKFold
-from keras.models import Sequential
-from keras.layers import LSTM, Dense
-import numpy as np
 import sklearn.model_selection as sk
 import pandas as pd
 from sklearn import svm
+import pickle as pickle
 
 def load_data(label_name='ConationLevel'):
 
@@ -47,6 +35,10 @@ def load_data(label_name='ConationLevel'):
 
 clf = svm.SVC()
 print("Training")
-#clf.fit(train_feature, train_label)
-cross_val_score(clf, train_feature, train_label, scoring='accuracy')
+clf.fit(train_feature, train_label)
+#cross_val_score(clf, train_feature, train_label, scoring='accuracy')
 print("Done Training")
+
+filename = 'SVM_MODEL.sav'
+pickle.dump(clf, open(filename, 'wb'))
+

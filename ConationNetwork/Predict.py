@@ -50,11 +50,13 @@ def load_data_one_set(label_name='ConationLevel'):
 
     return (dataset_features, dataset_labels)
 
-model = keras.models.load_model(r'ConationModel.HDF5')
+model = keras.models.load_model(r'ConationModel_Stacked_LSTM.HDF5')
 
 (Data_features, Data_labels) = load_data_one_set()
 
-Predictions = model.predict_classes(Data_features, batch_size=None, verbose=0, steps=None)
+X_train = np.reshape(Data_features.values, (Data_features.values).shape + (1,))
+
+Predictions = model.predict_classes(X_train , batch_size=64)
 
 Data_labels = Data_labels.replace([1, 2, 3, 4], 0)
 Data_labels = Data_labels.replace([5, 6, 7], 1)
@@ -77,7 +79,7 @@ print("False: " + str(falsePred))
 print("Accuracy: " + str(truePred/(truePred+falsePred)))
 
 
-output_df = pd.DataFrame(Predictions)
-output_df.to_csv(output_file_name, index=False)
+#output_df = pd.DataFrame(Predictions)
+#output_df.to_csv(output_file_name, index=False)
 
-plot.plot(data_file_name, output_file_name, Aspect, show_Conation, OriginalFile, resample_rate)
+#plot.plot(data_file_name, output_file_name, Aspect, show_Conation, OriginalFile, resample_rate)

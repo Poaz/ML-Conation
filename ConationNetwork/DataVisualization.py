@@ -22,9 +22,6 @@ def plot(data_file, prediction_file, aspect, showConation, OriginalFile, resampl
                        header=0, sep=',')
 
 
-
-
-
     DataPath2 = prediction_file
 
     # Parse the local CSV file.

@@ -54,8 +54,8 @@ def load_data(label_name='ConationLevel'):
 def load_data_one_set(label_name='ConationLevel'):
     CSV_COLUMN_NAMES = ['Gaze 3D position left X', 'Gaze 3D position left Y', 'Gaze 3D position left Z',
                         'Gaze 3D position right X', 'Gaze 3D position right Y', 'Gaze 3D position right Z',
-                        'Pupil diameter left', 'Pupil diameter right', 'HR', 'GSR', 'ConationLevel', 'PredictedConation'
-                        ,'GameState', 'TimeSinceStart']
+                        'Pupil diameter left', 'Pupil diameter right', 'HR', 'GSR', 'ConationLevel',
+                        'PredictedConation', 'GameState', 'TimeSinceStart']
 
     train_path = "CombinedData_Data2.csv"
 
@@ -132,7 +132,7 @@ def Keras_model():
     model.summary()
     #conation 1-4 = 0; 5-7 = 1
     model.compile(loss='binary_crossentropy',
-              optimizer=adam,
+              optimizer='rmsprop',
               metrics=['binary_accuracy'])
     return model
 

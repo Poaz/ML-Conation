@@ -30,7 +30,7 @@
         <entry file="file://$PROJECT_DIR$/KerasNetworkBinary.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="663">
-              <caret line="117" column="66" lean-forward="true" selection-start-line="76" selection-start-column="0" selection-end-line="117" selection-end-column="66" />
+              <caret line="117" column="66" lean-forward="false" selection-start-line="76" selection-start-column="0" selection-end-line="117" selection-end-column="66" />
               <folding>
                 <element signature="e#0#88#0" expanded="true" />
                 <element signature="e#963#2154#0" expanded="false" />
@@ -59,8 +59,8 @@
       <file leaf-file-name="ScikitSVM.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ScikitSVM.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="539">
-              <caret line="59" column="26" lean-forward="true" selection-start-line="59" selection-start-column="26" selection-end-line="59" selection-end-column="26" />
+            <state relative-caret-position="80">
+              <caret line="35" column="42" lean-forward="false" selection-start-line="35" selection-start-column="42" selection-end-line="35" selection-end-column="42" />
               <folding>
                 <element signature="e#0#51#0" expanded="true" />
               </folding>
@@ -836,7 +836,7 @@
     <entry file="file://$PROJECT_DIR$/KerasNetworkBinary.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="663">
-          <caret line="117" column="66" lean-forward="true" selection-start-line="76" selection-start-column="0" selection-end-line="117" selection-end-column="66" />
+          <caret line="117" column="66" lean-forward="false" selection-start-line="76" selection-start-column="0" selection-end-line="117" selection-end-column="66" />
           <folding>
             <element signature="e#0#88#0" expanded="true" />
             <element signature="e#963#2154#0" expanded="false" />
@@ -850,8 +850,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ScikitSVM.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="539">
-          <caret line="59" column="26" lean-forward="true" selection-start-line="59" selection-start-column="26" selection-end-line="59" selection-end-column="26" />
+        <state relative-caret-position="80">
+          <caret line="35" column="42" lean-forward="false" selection-start-line="35" selection-start-column="42" selection-end-line="35" selection-end-column="42" />
           <folding>
             <element signature="e#0#51#0" expanded="true" />
           </folding>

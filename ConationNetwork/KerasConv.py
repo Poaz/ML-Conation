@@ -1,10 +1,13 @@
-from keras.layers import Conv1D, GlobalAveragePooling1D, MaxPooling1D
+from numpy import random
+
+from keras.layers import Conv1D, GlobalAveragePooling1D, MaxPooling1D, MaxPooling2D
 import pandas as pd
 import numpy as np
 import keras
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Flatten
 from keras.optimizers import SGD, Adam
+from pip.req.req_file import process_line
 
 
 def load_Train_Test_Data():
@@ -51,27 +54,45 @@ def load_Train_Test_Data():
     return(train_feature, train_label), (test_feature, test_label)
 
 
-x_train = np.random.random((1000, 10))
-y_train = keras.utils.to_categorical(np.random.randint(10, size=(1000, 10)), num_classes=10)
-x_test = np.random.random((1000, 10))
-y_test = keras.utils.to_categorical(np.random.randint(10, size=(1000, 10)), num_classes=10)
+(train_feature, train_label), (test_feature, test_label) = load_Train_Test_Data()
 
-print(x_train)
-print(x_test)
+
+def generator(features, labels, batch_size):
+ # Create empty arrays to contain batch of features and labels#
+ batch_features = np.zeros((batch_size, 200, 10))
+ batch_labels = np.zeros((batch_size, 200, 1))
+ features = features.values
+ labels = labels.values
+
+ while True:
+   for i in range(batch_size):
+     # choose random index in features
+     index= random.choice(len(features), 1)
+     batch_features[i] = features[index]
+     batch_labels[i] = labels[index]
+   yield batch_features, batch_labels
+
 
 model = Sequential()
-model.add(Conv1D(64, 1, activation='relu', input_shape=(1000, 10)))
-model.add(Conv1D(64, 1, activation='relu'))
-model.add(MaxPooling1D(3))
-model.add(Conv1D(128, 1, activation='relu'))
-model.add(Conv1D(128, 1, activation='relu'))
-model.add(GlobalAveragePooling1D())
-model.add(Dropout(0.5))
+
+model.add(Conv1D(32, 3, input_shape=(200, 10), activation='sigmoid',  padding='same'))
+model.add(Dropout(0.25))
+model.add(Conv1D(16, 3, activation='sigmoid',  padding='same'))
+model.add(Dropout(0.20))
+model.add(Dense(30, activation='sigmoid'))
+model.add(Dropout(0.15))
+model.add(Dense(14, activation='sigmoid'))
 model.add(Dense(1, activation='sigmoid'))
 
 model.compile(loss='binary_crossentropy',
               optimizer='adam',
               metrics=['accuracy'])
 
-model.fit(x_train, y_train, batch_size=16, epochs=10)
-score = model.evaluate(x_test, y_test, batch_size=16)
+
+model.fit_generator(generator(train_feature, train_label, 200),
+                    steps_per_epoch=200, epochs=10)
+
+loss_and_metrics = model.evaluate_generator(generator(test_feature, test_label, 200), steps=200)
+print("\n" + "Loss: " + str(loss_and_metrics[0]) + "\n" + "Accuracy: " + str(loss_and_metrics[1]*100) + "%")
+#model.fit(train_feature, train_label, batch_size=16, epochs=10)
+#score = model.evaluate(test_feature, test_label, batch_size=16)

@@ -7,32 +7,52 @@ import sklearn.model_selection as sk
 import matplotlib.pyplot as plt
 import numpy as np
 import itertools
+from sklearn import decomposition
+
 class_names = ['Low', 'High']
 
-def load_data(label_name='ConationLevel'):
-
+def load_Train_Test_Data():
     CSV_COLUMN_NAMES = ['Gaze 3D position left X', 'Gaze 3D position left Y', 'Gaze 3D position left Z',
                         'Gaze 3D position right X', 'Gaze 3D position right Y', 'Gaze 3D position right Z',
-                        'Pupil diameter left', 'Pupil diameter right', 'HR', 'GSR', 'ConationLevel', 'PredictedConation']
+                        'Pupil diameter left', 'Pupil diameter right', 'HR', 'GSR', 'ConationLevel']
+
+    CSV_COLUMN_NAMES_TEST = ['Gaze 3D position left X', 'Gaze 3D position left Y', 'Gaze 3D position left Z',
+                        'Gaze 3D position right X', 'Gaze 3D position right Y', 'Gaze 3D position right Z',
+                        'Pupil diameter left', 'Pupil diameter right', 'HR', 'GSR', 'ConationLevel',
+                        'PredictedConation', 'GameState', 'TimeSinceStart']
 
 
-    train_path = "CombinedData_Data2.csv"
+    train_path = "TrainData.csv"
 
     # Parse the local CSV file.
     train = pd.read_csv(filepath_or_buffer=train_path,
                         names=CSV_COLUMN_NAMES,
                         header=0, sep=',')
 
-    train_features, test_features = sk.train_test_split(train, test_size=0.20, random_state=42)
-    train_features = train_features.drop(['ConationLevel'], axis=1)
-    test_features = test_features.drop(['ConationLevel'], axis=1)
-    train_features = train_features.drop(['PredictedConation'], axis=1)
-    test_features = test_features.drop(['PredictedConation'], axis=1)
+    train_feature = train.drop(['ConationLevel'], axis=1)
 
-    train_label, test_label = sk.train_test_split(train.pop(label_name), test_size=0.20, random_state=42)
+    train_label = train.pop('ConationLevel')
+    train_label = train_label.replace([1, 2, 3, 4], 0)
+    train_label = train_label.replace([5, 6, 7], 1)
 
-    # Return four DataFrames.
-    return (train_features, train_label), (test_features, test_label)
+    test_path = "TestData.csv"
+
+    # Parse the local CSV file.
+    test = pd.read_csv(filepath_or_buffer=test_path,
+                        names=CSV_COLUMN_NAMES_TEST,
+                        header=0, sep=',')
+
+    test_feature = test.drop(['ConationLevel'], axis=1)
+    test_feature = test_feature.drop(['PredictedConation'], axis=1)
+    test_feature = test_feature.drop(['GameState'], axis=1)
+    test_feature = test_feature.drop(['TimeSinceStart'], axis=1)
+
+    test_label = test.pop('ConationLevel')
+    test_label = test_label.replace([1, 2, 3, 4], 0)
+    test_label = test_label.replace([5, 6, 7], 1)
+
+
+    return(train_feature, train_label), (test_feature, test_label)
 
 
 def plot_confusion_matrix(cm, classes,
@@ -70,13 +90,43 @@ def plot_confusion_matrix(cm, classes,
     plt.xlabel('Predicted label')
 
 
-(train_feature, train_label), (test_feature, test_label) = load_data()
+def feature_Importance(clf, train_feature):
+    importances = clf.feature_importances_
+    std = np.std([tree.feature_importances_ for tree in clf.estimators_],
+                 axis=0)
+    indices = np.argsort(importances)[::-1]
 
-clf = RandomForestClassifier(max_depth=2, random_state=0)
+    # Print the feature ranking
+    print("Feature ranking:")
+
+    for f in range(train_feature.shape[1]):
+        print("%d. feature %d (%f)" % (f + 1, indices[f], importances[indices[f]]))
+
+    # Plot the feature importances of the forest
+    plt.figure()
+    plt.title("Feature importances")
+    plt.bar(range(train_feature.shape[1]), importances[indices],
+            color="r", yerr=std[indices], align="center")
+    plt.xticks(range(train_feature.shape[1]), indices)
+    plt.xlim([-1, train_feature.shape[1]])
+    plt.show()
+
+
+(train_feature, train_label), (test_feature, test_label) = load_Train_Test_Data()
+
+#pca = decomposition.PCA()
+#pca = pca.fit(np.append(train_feature, test_feature, axis=0))
+#train_feature = np.append(train_feature, pca.transform(train_feature), axis=1)
+#test_feature = np.append(test_feature, pca.transform(test_feature), axis=1)
+
+
+clf = RandomForestClassifier(n_jobs=2,random_state=0)
 
 y_pred = clf.fit(train_feature, train_label)
 
 predictions = clf.predict(test_feature)
+feature_Importance(clf, train_feature)
+
 truePred = 0
 falsePred = 0
 

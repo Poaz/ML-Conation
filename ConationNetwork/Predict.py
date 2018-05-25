@@ -2,6 +2,7 @@ import keras as keras
 import pandas as pd
 import numpy as np
 import DataVisualization as plot
+import pickle
 
 
 ###################################################################################
@@ -25,7 +26,6 @@ OriginalFile = 'Data10_9.txt'
 resample_rate = 50
 
 ####################################################################################
-
 
 def load_data_one_set(label_name='ConationLevel'):
     CSV_COLUMN_NAMES = ['Gaze 3D position left X', 'Gaze 3D position left Y', 'Gaze 3D position left Z',
@@ -97,19 +97,19 @@ model = keras.models.load_model(r'ConationModel_Stacked_LSTM.HDF5')
 
 (train_features, train_labels), (test_feature, test_label) = load_Train_Test_Data()
 
-X_train = np.reshape(test_feature.values, (test_feature.values).shape + (1,))
+#X_train = np.reshape(test_feature.values, (test_feature.values).shape + (1,))
 
-Predictions = model.predict_classes(X_train , batch_size=64)
+#SVM MODEL LOAD
+SVM_model = pickle.load(open('SVM_MODEL.sav', 'rb'))
+Predictions = SVM_model.score(test_feature, test_label)
+print(Predictions)
+"""
+#Predictions = model.predict_classes(test_feature , batch_size=64)
 
-Data_labels = test_label.replace([1, 2, 3, 4], 0)
-Data_labels = Data_labels.replace([5, 6, 7], 1)
+Data_labels = test_label
 
-Data_labels = Data_labels.astype(np.int32)
 truePred = 0
 falsePred = 0
-
-print(np.sum(Predictions))
-print(np.sum(Data_labels))
 
 for i in range(len(Predictions)):
     if Data_labels[i] == Predictions[i][0]:
@@ -121,8 +121,8 @@ print("True: " + str(truePred))
 print("False: " + str(falsePred))
 print("Accuracy: " + str(truePred/(truePred+falsePred)))
 
-
 #output_df = pd.DataFrame(Predictions)
 #output_df.to_csv(output_file_name, index=False)
 
 #plot.plot(data_file_name, output_file_name, Aspect, show_Conation, OriginalFile, resample_rate)
+"""

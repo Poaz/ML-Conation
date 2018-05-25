@@ -11,11 +11,13 @@ from keras import backend as K
 from keras.wrappers.scikit_learn import KerasClassifier
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import StratifiedKFold
+from sklearn import decomposition
+import numpy as np
 
 
 ##############################################################################
 dropout = 0.25
-epochs = 50
+epochs = 20
 batchSize = 128
 validationSplit = 0.15
 classes = 2
@@ -159,9 +161,10 @@ CallBack = keras.callbacks.TensorBoard(log_dir='./Logs', histogram_freq=1, batch
                                         write_grads=False, write_images=False, embeddings_freq=0,
                                         embeddings_layer_names=None, embeddings_metadata=None)
 
+
 def Keras_model():
     model = Sequential()
-    model.add(Dense(30, input_dim=10, kernel_initializer='normal'))
+    model.add(Dense(30, input_dim=train_feature.shape[1], kernel_initializer='normal'))
     model.add(BatchNormalization())
     model.add(Dropout(dropout))
     model.add(Dense(30, activation='sigmoid'))
@@ -180,10 +183,11 @@ def Keras_model():
 
 (train_feature, train_label), (test_feature, test_label) = load_Train_Test_Data()
 
-print(train_feature)
-print(train_label)
-print(test_feature)
-print(test_label)
+#pca = decomposition.PCA(2)
+#pca = pca.fit(np.append(train_feature, test_feature, axis=0))
+#train_feature = np.append(train_feature, pca.transform(train_feature), axis=1)
+#test_feature = np.append(test_feature, pca.transform(test_feature), axis=1)
+
 #, callbacks=[CallBack]
 
 #Train and evaluate model

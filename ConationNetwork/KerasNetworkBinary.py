@@ -176,11 +176,12 @@ def Keras_model():
 
     model.summary()
     #conation 1-4 = 0; 5-7 = 1
-    model.compile(loss='binary_crossentropy',
+    model.compile(loss='mean_squared_error',
               optimizer=adam,
               metrics=['binary_accuracy'])
     return model
-
+#mean_squared_error
+#binary_crossentropy
 (train_feature, train_label), (test_feature, test_label) = load_Train_Test_Data()
 
 #pca = decomposition.PCA(2)

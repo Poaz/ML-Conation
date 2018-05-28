@@ -1,20 +1,13 @@
 from keras.layers import Dense, Dropout, Activation, LSTM, BatchNormalization, LeakyReLU
 from keras.optimizers import SGD, Adam
-import keras as keras
-import pandas as pd
-import sklearn.model_selection as sk
-import tensorflow as tf
-from tensorflow.python.tools import freeze_graph
-from keras import backend as K
-from keras.wrappers.scikit_learn import KerasClassifier
-from sklearn.model_selection import cross_val_score
-from sklearn.model_selection import StratifiedKFold
 from keras.models import Sequential
 from keras.layers import LSTM, Dense
 import numpy as np
 import sklearn.model_selection as sk
 import pandas as pd
 from numpy import array
+from numpy import random
+
 
 ##############################################################################
 data_dim = 10
@@ -163,11 +156,21 @@ print(type(X_test))
 print(type(Y_train))
 print(type(Y_test))
 
-a = ([1,2,3,4,5,6,7,8,9,10], [1,2,3,4,5,6,7,8,9,10], [1,2,3,4,5,6,7,8,9,10], [1,2,3,4,5,6,7,8,9,10])
+def generator(features, labels, batch_size):
+ # Create empty arrays to contain batch of features and labels#
+ batch_features = np.zeros((batch_size, 200, 10))
+ batch_labels = np.zeros((200, 1))
+ features = features.values
+ labels = labels.values
 
-b = np.reshape(a, (2,2,10))
-print(b)
-print(b.shape)
+ while True:
+   for i in range(batch_size):
+     # choose random index in features
+     index = random.choice(len(features), 1)
+     batch_features[i] = features[i]
+     batch_labels[i] = labels[i]
+   yield batch_features, batch_labels
+
 
 # expected input data shape: (batch_size, timesteps, data_dim)
 model = Sequential()
@@ -181,8 +184,11 @@ model.compile(loss='binary_crossentropy',
               optimizer='rmsprop',
               metrics=['accuracy'])
 
-model.fit(X_train, Y_train, batch_size=64, epochs=epochs)
+#model.fit(X_train, Y_train, batch_size=64, epochs=epochs)
+model.fit_generator(generator(train_feature, train_label, 200), steps_per_epoch=200, epochs=1)
 
-loss_and_metrics = model.evaluate(X_test, Y_test, batch_size=64)
-#print("\n" + "Loss: " + str(loss_and_metrics[0]) + "\n" + "Accuracy: " + str(loss_and_metrics[1] * 100) + "%")
+loss_and_metrics = model.evaluate_generator(generator(test_feature, test_label, 200), steps=200)
+
+#loss_and_metrics = model.evaluate(X_test, Y_test, batch_size=64)
+print("\n" + "Loss: " + str(loss_and_metrics[0]) + "\n" + "Accuracy: " + str(loss_and_metrics[1] * 100) + "%")
 model.save('ConationModel_Stacked_LSTM.HDF5')

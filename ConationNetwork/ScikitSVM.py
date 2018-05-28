@@ -52,10 +52,9 @@ def load_Train_Test_Data():
 
 
 clf = svm.SVC()
-print("Training")
+
 clf.fit(train_feature, train_label)
-#cross_val_score(clf, train_feature, train_label, scoring='accuracy')
-print("Done Training")
+
 
 filename = 'SVM_MODEL.sav'
 pickle.dump(clf, open(filename, 'wb'))

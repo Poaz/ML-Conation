@@ -120,7 +120,7 @@ def feature_Importance(clf, train_feature):
 #test_feature = np.append(test_feature, pca.transform(test_feature), axis=1)
 
 
-clf = RandomForestClassifier(n_jobs=2,random_state=0)
+clf = RandomForestClassifier(n_jobs=2, random_state=0)
 
 y_pred = clf.fit(train_feature, train_label)
 

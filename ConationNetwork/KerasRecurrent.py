@@ -141,11 +141,11 @@ model.compile(loss='binary_crossentropy',
 
 (train_feature, train_label), (test_feature, test_label) = load_Train_Test_Data()
 
-model.fit_generator(MainGenerator(train_feature, train_label, 200).generator(), steps_per_epoch=(train_feature.shape[0]/210), epochs=10)
+model.fit_generator(MainGenerator(train_feature, train_label, 200).generator(), steps_per_epoch=(train_feature.shape[0]/210)-1, epochs=10)
 
 #model.fit_generator(generator(train_feature, train_label, 200), steps_per_epoch=200, epochs=1)
 
-loss_and_metrics = model.evaluate_generator(MainGenerator(test_feature, test_label, 200).generator(), steps=(test_feature.shape[0]/210))
+loss_and_metrics = model.evaluate_generator(MainGenerator(test_feature, test_label, 200).generator(), steps=(test_feature.shape[0]/210)-1)
 
 print("\n" + "Loss: " + str(loss_and_metrics[0]) + "\n" + "Accuracy: " + str(loss_and_metrics[1] * 100) + "%")
 

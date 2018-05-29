@@ -168,32 +168,27 @@ def Keras_model():
     model.add(BatchNormalization())
     model.add(Dropout(dropout))
     model.add(Dense(30, activation='sigmoid'))
+    model.add(BatchNormalization())
     model.add(Dropout(dropout))
     model.add(Dense(20, activation='sigmoid'))
+    model.add(BatchNormalization())
     model.add(Dropout(dropout))
     model.add(Dense(10, activation='sigmoid'))
     model.add(Dense(1, activation='sigmoid'))
 
     model.summary()
     #conation 1-4 = 0; 5-7 = 1
-    model.compile(loss='mean_squared_error',
+    model.compile(loss='binary_crossentropy',
               optimizer=adam,
               metrics=['binary_accuracy'])
     return model
-#mean_squared_error
-#binary_crossentropy
+
 (train_feature, train_label), (test_feature, test_label) = load_Train_Test_Data()
 
-#pca = decomposition.PCA(2)
-#pca = pca.fit(np.append(train_feature, test_feature, axis=0))
-#train_feature = np.append(train_feature, pca.transform(train_feature), axis=1)
-#test_feature = np.append(test_feature, pca.transform(test_feature), axis=1)
-
-#, callbacks=[CallBack]
 
 #Train and evaluate model
 model = Keras_model()
-model.fit(train_feature, train_label, epochs=epochs, batch_size=batchSize)
+model.fit(train_feature, train_label, epochs=epochs, batch_size=batchSize, callbacks=[CallBack], validation_split=validationSplit)
 loss_and_metrics = model.evaluate(test_feature, test_label, batch_size=128)
 
 

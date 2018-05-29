@@ -124,4 +124,3 @@ def corr_plots():
     #plt.colorbar(scatter2);
     plt.show()
 
-corr_plots()

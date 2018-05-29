@@ -3,6 +3,9 @@ import pandas as pd
 import numpy as np
 import DataVisualization as plot
 import pickle
+import matplotlib.pyplot as plt
+from sklearn.metrics import confusion_matrix
+import itertools
 
 
 ###################################################################################
@@ -24,6 +27,8 @@ OriginalFile = 'Data10_9.txt'
 
 #Sets which nTH row to plot. Example: 50, is sampling every 50th row (1 sample/s)
 resample_rate = 50
+
+class_names = ['Low', 'High']
 
 ####################################################################################
 
@@ -93,7 +98,6 @@ def load_Train_Test_Data():
 
     return(train_feature, train_label), (test_feature, test_label)
 
-
 def generator(features, labels, batch_size):
     # Create empty arrays to contain batch of features and labels#
     batch_features = np.zeros((batch_size, 200, 10))
@@ -107,18 +111,53 @@ def generator(features, labels, batch_size):
             batch_labels[i] = labels[i]
         yield batch_features, batch_labels
 
-model = keras.models.load_model(r'ConationModel_Stacked_LSTM.HDF5')
+def plot_confusion_matrix(cm, classes,
+                          normalize=False,
+                          title='Confusion matrix',
+                          cmap=plt.cm.Blues):
+    """
+    This function prints and plots the confusion matrix.
+    Normalization can be applied by setting `normalize=True`.
+    """
+    if normalize:
+        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+        print("Normalized confusion matrix")
+    else:
+        print('Confusion matrix, without normalization')
+
+    print(cm)
+
+    plt.imshow(cm, interpolation='nearest', cmap=cmap)
+    plt.title(title)
+    plt.colorbar()
+    tick_marks = np.arange(len(classes))
+    plt.xticks(tick_marks, classes, rotation=45)
+    plt.yticks(tick_marks, classes)
+
+    fmt = '.2f' if normalize else 'd'
+    thresh = cm.max() / 2.
+    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+        plt.text(j, i, format(cm[i, j], fmt),
+                 horizontalalignment="center",
+                 color="white" if cm[i, j] > thresh else "black")
+
+    plt.tight_layout()
+    plt.ylabel('True label')
+    plt.xlabel('Predicted label')
+
+
+#model = keras.models.load_model(r'ConationModel_Stacked_LSTM.HDF5')
 
 (train_features, train_labels), (test_feature, test_label) = load_Train_Test_Data()
 
 #SVM MODEL LOAD
-#SVM_model = pickle.load(open('SVM_MODEL.sav', 'rb'))
-#Predictions = SVM_model.score(test_feature, test_label)
-#print(Predictions)
+SVM_model = pickle.load(open('SVM_MODEL.sav', 'rb'))
+Predictions = SVM_model.score(test_feature, test_label)
+print(Predictions)
 
-Predictions = model.predict_generator(generator(test_feature, test_label, 64), steps=200)
+#Predictions = model.predict_generator(generator(test_feature, test_label, 64), steps=200)
 
-
+"""
 print(np.shape(Predictions))
 BinaryLabels = np.zeros(np.shape(test_label))
 
@@ -127,12 +166,12 @@ for i in range(len(Predictions)):
         BinaryLabels[i] = 1
     else:
         BinaryLabels[i] = 0
-
+"""
 truePred = 0
 falsePred = 0
 
-for i in range(len(BinaryLabels)):
-    if test_label[i] == BinaryLabels[i]:
+for i in range(len(Predictions)):
+    if test_label[i] == Predictions[i]:
         truePred +=1
     else:
         falsePred +=1
@@ -145,3 +184,10 @@ print("Accuracy: " + str(truePred/(truePred+falsePred)))
 #output_df.to_csv(output_file_name, index=False)
 #
 #plot.plot(data_file_name, output_file_name, Aspect, show_Conation, OriginalFile, resample_rate)
+
+cnf_matrix = confusion_matrix(test_label, Predictions)
+np.set_printoptions(precision=2)
+plot_confusion_matrix(cnf_matrix, classes=class_names, normalize=True,
+                      title='Normalized confusion matrix')
+plt.tight_layout()
+plt.show()

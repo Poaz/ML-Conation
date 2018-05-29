@@ -57,20 +57,29 @@ def load_Train_Test_Data():
 (train_feature, train_label), (test_feature, test_label) = load_Train_Test_Data()
 
 
-def generator(features, labels, batch_size):
- # Create empty arrays to contain batch of features and labels#
- batch_features = np.zeros((batch_size, 200, 10))
- batch_labels = np.zeros((batch_size, 200, 1))
- features = features.values
- labels = labels.values
+class MainGenerator(object):
 
- while True:
-   for i in range(batch_size):
-     # choose random index in features
-     index= random.choice(len(features), 1)
-     batch_features[i] = features[index]
-     batch_labels[i] = labels[index]
-   yield batch_features, batch_labels
+    def __init__(self, features, labels, batch_size):
+        self.features = features
+        self.labels = labels
+        self.batch_size = batch_size
+        self.currentStep = 0
+
+    def generator(self):
+
+        features = self.features
+        labels = self.labels
+        # Create empty arrays to contain batch of features and labels#
+        batch_features = np.zeros((self.batch_size, 200, 10))
+        batch_labels = np.zeros((200, 1))
+        features = features.values
+        labels = labels.values
+        while True:
+            for i in range(0, self.batch_size):
+                batch_features[i] = features[i+self.currentStep]
+                batch_labels[i] = labels[i+self.currentStep]
+                self.currentStep += 1
+            yield batch_features, batch_labels
 
 
 model = Sequential()
@@ -79,6 +88,7 @@ model.add(Conv1D(32, 3, input_shape=(200, 10), activation='sigmoid',  padding='s
 model.add(Dropout(0.25))
 model.add(Conv1D(16, 3, activation='sigmoid',  padding='same'))
 model.add(Dropout(0.20))
+model.add(Flatten())
 model.add(Dense(30, activation='sigmoid'))
 model.add(Dropout(0.15))
 model.add(Dense(14, activation='sigmoid'))
@@ -89,10 +99,9 @@ model.compile(loss='binary_crossentropy',
               metrics=['accuracy'])
 
 
-model.fit_generator(generator(train_feature, train_label, 200),
-                    steps_per_epoch=200, epochs=10)
+model.fit_generator(MainGenerator(train_feature, train_label, 200).generator(), steps_per_epoch=((train_feature.shape[0]/210)-1), epochs=2)
 
-loss_and_metrics = model.evaluate_generator(generator(test_feature, test_label, 200), steps=200)
+loss_and_metrics = model.evaluate_generator(MainGenerator(test_feature, test_label, 200).generator(), steps=((test_feature.shape[0]/210)-1))
 print("\n" + "Loss: " + str(loss_and_metrics[0]) + "\n" + "Accuracy: " + str(loss_and_metrics[1]*100) + "%")
 #model.fit(train_feature, train_label, batch_size=16, epochs=10)
 #score = model.evaluate(test_feature, test_label, batch_size=16)

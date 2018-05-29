@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import itertools
 from sklearn import decomposition
-
+from sklearn.metrics import accuracy_score
 class_names = ['Low', 'High']
 
 def load_Train_Test_Data():
@@ -32,8 +32,8 @@ def load_Train_Test_Data():
     train_feature = train.drop(['ConationLevel'], axis=1)
 
     train_label = train.pop('ConationLevel')
-    train_label = train_label.replace([1, 2, 3, 4], 0)
-    train_label = train_label.replace([5, 6, 7], 1)
+    train_label = train_label.replace([1, 2, 3], 0)
+    train_label = train_label.replace([5, 6, 7, 4], 1)
 
     test_path = "TestData.csv"
 
@@ -48,8 +48,8 @@ def load_Train_Test_Data():
     test_feature = test_feature.drop(['TimeSinceStart'], axis=1)
 
     test_label = test.pop('ConationLevel')
-    test_label = test_label.replace([1, 2, 3, 4], 0)
-    test_label = test_label.replace([5, 6, 7], 1)
+    test_label = test_label.replace([1, 2, 3], 0)
+    test_label = test_label.replace([5, 6, 7, 4], 1)
 
 
     return(train_feature, train_label), (test_feature, test_label)
@@ -120,17 +120,55 @@ def feature_Importance(clf, train_feature):
 #test_feature = np.append(test_feature, pca.transform(test_feature), axis=1)
 
 
-clf = RandomForestClassifier(n_jobs=2, random_state=0)
+clf = RandomForestClassifier(n_estimators=10, criterion='gini', max_depth=None,min_samples_split=2, min_samples_leaf=1,
+                             min_weight_fraction_leaf=0.0, max_features='auto', max_leaf_nodes=None,bootstrap=True,
+                             oob_score=False, n_jobs=2, random_state=None, verbose=0, warm_start=False,class_weight=None)
 
 y_pred = clf.fit(train_feature, train_label)
 
 predictions = clf.predict(test_feature)
-feature_Importance(clf, train_feature)
+acc = accuracy_score(test_label, predictions)
+print(acc)
+#feature_Importance(clf, train_feature)
+
+#truePred = 0
+#falsePred = 0
+#
+#test_label = test_label.values
+#
+#for i in range(len(predictions)):
+#    if test_label[i] == predictions[i]:
+#        truePred +=1
+#    else:
+#        falsePred +=1
+#
+#print("Accuracy: " + str(truePred/(truePred+falsePred)))
+#print(confusion_matrix(predictions, test_label))
+#
+## Compute confusion matrix
+#cnf_matrix = confusion_matrix(test_label, predictions)
+#np.set_printoptions(precision=2)
+
+## Plot non-normalized confusion matrix
+#plt.figure()
+#plot_confusion_matrix(cnf_matrix, classes=class_names,
+#                      title='Confusion matrix, without normalization')
+
+# Plot normalized confusion matrix
+#plt.figure()
+
+
+
+#plot_confusion_matrix(cnf_matrix, classes=class_names, normalize=True,
+#                      title='Normalized confusion matrix')
+#plt.tight_layout()
+#plt.show()
+"""
+test_label =    [1,1,1,1,1,0,0,0,0,0,1,0,0,1,0,1,1,1,1,0,0,1,0,1,1,0,1,1]
+predictions =   [1,1,1,0,1,1,0,0,0,0,1,1,1,0,0,0,1,1,0,1,0,1,0,1,1,0,1,1]
 
 truePred = 0
 falsePred = 0
-
-test_label = test_label.values
 
 for i in range(len(predictions)):
     if test_label[i] == predictions[i]:
@@ -139,20 +177,10 @@ for i in range(len(predictions)):
         falsePred +=1
 
 print("Accuracy: " + str(truePred/(truePred+falsePred)))
-print(confusion_matrix(predictions, test_label))
 
-# Compute confusion matrix
 cnf_matrix = confusion_matrix(test_label, predictions)
-np.set_printoptions(precision=2)
-
-# Plot non-normalized confusion matrix
-plt.figure()
-plot_confusion_matrix(cnf_matrix, classes=class_names,
-                      title='Confusion matrix, without normalization')
-
-# Plot normalized confusion matrix
-plt.figure()
 plot_confusion_matrix(cnf_matrix, classes=class_names, normalize=True,
                       title='Normalized confusion matrix')
-
+plt.tight_layout()
 plt.show()
+"""

@@ -1,13 +1,13 @@
-from keras.layers import Dense, Dropout, Activation, LSTM, BatchNormalization, LeakyReLU
 from keras.optimizers import SGD, Adam
 from keras.models import Sequential
 from keras.layers import LSTM, Dense
-import numpy as np
-import sklearn.model_selection as sk
+from keras.utils import to_categorical
+from sklearn.metrics import confusion_matrix
 import pandas as pd
-from numpy import array
-from numpy import random
-
+import matplotlib.pyplot as plt
+import numpy as np
+import itertools
+import keras.backend as k
 
 ##############################################################################
 data_dim = 10
@@ -21,34 +21,8 @@ sgd = SGD(lr=0.001, decay=1e-6, momentum=0.9, nesterov=True)
 adam = Adam(lr=0.001, decay=1e-6)
 model_path = ''
 env_name = 'ConationModel'
-
-
+class_names = ['Low', 'High']
 ##############################################################################
-
-
-def load_data(label_name='ConationLevel'):
-    CSV_COLUMN_NAMES = ['Gaze 3D position left X', 'Gaze 3D position left Y', 'Gaze 3D position left Z',
-                        'Gaze 3D position right X', 'Gaze 3D position right Y', 'Gaze 3D position right Z',
-                        'Pupil diameter left', 'Pupil diameter right', 'HR', 'GSR', 'ConationLevel',
-                        'PredictedConation']
-
-    train_path = "CombinedData_Data2.csv"
-
-    # Parse the local CSV file.
-    train = pd.read_csv(filepath_or_buffer=train_path,
-                        names=CSV_COLUMN_NAMES,
-                        header=0, sep=',')
-
-    train_features, test_features = sk.train_test_split(train, test_size=0.20, random_state=42)
-    train_features = train_features.drop(['ConationLevel'], axis=1)
-    test_features = test_features.drop(['ConationLevel'], axis=1)
-    train_features = train_features.drop(['PredictedConation'], axis=1)
-    test_features = test_features.drop(['PredictedConation'], axis=1)
-
-    train_label, test_label = sk.train_test_split(train.pop(label_name), test_size=0.20, random_state=42)
-
-    # Return four DataFrames.
-    return (train_features, train_label), (test_features, test_label)
 
 
 def load_Train_Test_Data():
@@ -73,7 +47,7 @@ def load_Train_Test_Data():
     train_label = train.pop('ConationLevel')
     train_label = train_label.replace([1, 2, 3, 4], 0)
     train_label = train_label.replace([5, 6, 7], 1)
-    train_label = train_label .iloc[0:-19]
+    train_label = train_label.iloc[0:-19]
     test_path = "TestData.csv"
 
     # Parse the local CSV file.
@@ -94,101 +68,100 @@ def load_Train_Test_Data():
     return (train_feature, train_label), (test_feature, test_label)
 
 
-(train_feature, train_label), (test_feature, test_label) = load_Train_Test_Data()
+class MainGenerator(object):
 
-X_train = train_feature.values
-Y_train = train_label.values
-X_test = test_feature.values
-Y_test = test_label.values
+    def __init__(self, features, labels, batch_size):
+        self.features = features
+        self.labels = labels
+        self.batch_size = batch_size
+        self.currentStep = 0
 
-def slice_data(data, features, length):
+    def generator(self):
 
-    # split into samples (e.g. 5000/200 = 25)
-    samples = list()
-    length_timestep = 200
-    n = data.shape
-    # step over the 5,000 in jumps of 200
-    for i in range(0, n[0], length_timestep):
-        # grab from i to i + 200
-        j = 0
-        sample = data[i:i + length_timestep]
-        print(sample[0][0])
-        samples.append(sample)
-        #samples[j] = sample
-        j +=1
-
-    returndata = array(samples)
-    returndata = returndata.reshape((len(samples), length_timestep, features))
-    return returndata
-
-def slice_data_Y(data, features, length):
-
-    # split into samples (e.g. 5000/200 = 25)
-    samples = [0]*(length)
-    length_timestep = 200
-    n = data.shape
-    # step over the 5,000 in jumps of 200
-    for i in range(0, n[0], length_timestep):
-        # grab from i to i + 200
-        j = 0
-        sample = data[i:i + length_timestep]
-        print(len(sample))
-        samples[j] = sample
-        j +=1
-
-    returndata = array(samples)
-    returndata = returndata.reshape((len(samples), features))
-    return returndata
+        features = self.features
+        labels = self.labels
+        # Create empty arrays to contain batch of features and labels#
+        batch_features = np.zeros((self.batch_size, 200, 10))
+        batch_labels = np.zeros((200, 1))
+        features = features.values
+        labels = labels.values
+        while True:
+            for i in range(0, self.batch_size):
+                batch_features[i] = features[i+self.currentStep]
+                batch_labels[i] = labels[i+self.currentStep]
+                self.currentStep += 1
+            yield batch_features, batch_labels
 
 
-X_train = slice_data(X_train, 10, 4862)
-Y_train = slice_data_Y(Y_train, 1, 4862)
-X_test = slice_data(X_test, 10, 865)
-Y_test = slice_data_Y(Y_test, 1, 865)
+def plot_confusion_matrix(cm, classes,
+                          normalize=False,
+                          title='Confusion matrix',
+                          cmap=plt.cm.Blues):
+    """
+    This function prints and plots the confusion matrix.
+    Normalization can be applied by setting `normalize=True`.
+    """
+    if normalize:
+        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+        print("Normalized confusion matrix")
+    else:
+        print('Confusion matrix, without normalization')
 
-print(X_train.shape)
-print(Y_train.shape)
-print(X_test.shape)
-print(Y_test.shape)
+    print(cm)
 
-print(type(X_train))
-print(type(X_test))
-print(type(Y_train))
-print(type(Y_test))
+    plt.imshow(cm, interpolation='nearest', cmap=cmap)
+    plt.title(title)
+    plt.colorbar()
+    tick_marks = np.arange(len(classes))
+    plt.xticks(tick_marks, classes, rotation=45)
+    plt.yticks(tick_marks, classes)
 
-def generator(features, labels, batch_size):
- # Create empty arrays to contain batch of features and labels#
- batch_features = np.zeros((batch_size, 200, 10))
- batch_labels = np.zeros((200, 1))
- features = features.values
- labels = labels.values
+    fmt = '.2f' if normalize else 'd'
+    thresh = cm.max() / 2.
+    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+        plt.text(j, i, format(cm[i, j], fmt),
+                 horizontalalignment="center",
+                 color="white" if cm[i, j] > thresh else "black")
 
- while True:
-   for i in range(batch_size):
-     # choose random index in features
-     index = random.choice(len(features), 1)
-     batch_features[i] = features[i]
-     batch_labels[i] = labels[i]
-   yield batch_features, batch_labels
+    plt.tight_layout()
+    plt.ylabel('True label')
+    plt.xlabel('Predicted label')
 
 
-# expected input data shape: (batch_size, timesteps, data_dim)
 model = Sequential()
-model.add(LSTM(32, return_sequences=True,
-               input_shape=(200, 10)))  # returns a sequence of vectors of dimension 32
-model.add(LSTM(32, return_sequences=True))  # returns a sequence of vectors of dimension 32
-model.add(LSTM(32))  # return a single vector of dimension 32
+
+model.add(LSTM(32, return_sequences=True, input_shape=(200, 10)))
+model.add(LSTM(32, return_sequences=True))
+model.add(LSTM(32))
 model.add(Dense(1, activation='sigmoid'))
 
 model.compile(loss='binary_crossentropy',
-              optimizer='rmsprop',
-              metrics=['accuracy'])
+              optimizer='adam',
+              metrics=['binary_accuracy'])
 
-#model.fit(X_train, Y_train, batch_size=64, epochs=epochs)
-model.fit_generator(generator(train_feature, train_label, 200), steps_per_epoch=200, epochs=1)
+(train_feature, train_label), (test_feature, test_label) = load_Train_Test_Data()
 
-loss_and_metrics = model.evaluate_generator(generator(test_feature, test_label, 200), steps=200)
+model.fit_generator(MainGenerator(train_feature, train_label, 200).generator(), steps_per_epoch=(train_feature.shape[0]/210), epochs=10)
 
-#loss_and_metrics = model.evaluate(X_test, Y_test, batch_size=64)
+#model.fit_generator(generator(train_feature, train_label, 200), steps_per_epoch=200, epochs=1)
+
+loss_and_metrics = model.evaluate_generator(MainGenerator(test_feature, test_label, 200).generator(), steps=(test_feature.shape[0]/210))
+
 print("\n" + "Loss: " + str(loss_and_metrics[0]) + "\n" + "Accuracy: " + str(loss_and_metrics[1] * 100) + "%")
+
 model.save('ConationModel_Stacked_LSTM.HDF5')
+
+
+"""
+# Compute confusion matrix
+cnf_matrix = confusion_matrix(test_label, loss_and_metrics)
+np.set_printoptions(precision=2)
+
+# Plot normalized confusion matrix
+plt.figure()
+plot_confusion_matrix(cnf_matrix, classes=class_names, normalize=True,
+                      title='Normalized confusion matrix')
+
+plt.show()
+"""
+

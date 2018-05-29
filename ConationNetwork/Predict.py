@@ -93,26 +93,46 @@ def load_Train_Test_Data():
 
     return(train_feature, train_label), (test_feature, test_label)
 
+
+def generator(features, labels, batch_size):
+    # Create empty arrays to contain batch of features and labels#
+    batch_features = np.zeros((batch_size, 200, 10))
+    batch_labels = np.zeros((200, 1))
+    features = features.values
+    labels = labels.values
+
+    while True:
+        for i in range(batch_size):
+            batch_features[i] = features[i]
+            batch_labels[i] = labels[i]
+        yield batch_features, batch_labels
+
 model = keras.models.load_model(r'ConationModel_Stacked_LSTM.HDF5')
 
 (train_features, train_labels), (test_feature, test_label) = load_Train_Test_Data()
 
-#X_train = np.reshape(test_feature.values, (test_feature.values).shape + (1,))
-
 #SVM MODEL LOAD
-SVM_model = pickle.load(open('SVM_MODEL.sav', 'rb'))
-Predictions = SVM_model.score(test_feature, test_label)
-print(Predictions)
-"""
-#Predictions = model.predict_classes(test_feature , batch_size=64)
+#SVM_model = pickle.load(open('SVM_MODEL.sav', 'rb'))
+#Predictions = SVM_model.score(test_feature, test_label)
+#print(Predictions)
 
-Data_labels = test_label
+Predictions = model.predict_generator(generator(test_feature, test_label, 64), steps=200)
+
+
+print(np.shape(Predictions))
+BinaryLabels = np.zeros(np.shape(test_label))
+
+for i in range(len(Predictions)):
+    if Predictions[i] >= 0.5:
+        BinaryLabels[i] = 1
+    else:
+        BinaryLabels[i] = 0
 
 truePred = 0
 falsePred = 0
 
-for i in range(len(Predictions)):
-    if Data_labels[i] == Predictions[i][0]:
+for i in range(len(BinaryLabels)):
+    if test_label[i] == BinaryLabels[i]:
         truePred +=1
     else:
         falsePred +=1
@@ -120,9 +140,8 @@ for i in range(len(Predictions)):
 print("True: " + str(truePred))
 print("False: " + str(falsePred))
 print("Accuracy: " + str(truePred/(truePred+falsePred)))
-
+##
 #output_df = pd.DataFrame(Predictions)
 #output_df.to_csv(output_file_name, index=False)
-
+#
 #plot.plot(data_file_name, output_file_name, Aspect, show_Conation, OriginalFile, resample_rate)
-"""

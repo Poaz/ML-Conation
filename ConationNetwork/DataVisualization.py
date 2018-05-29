@@ -77,18 +77,24 @@ def corr_plots():
     CSV_COLUMN_NAMES = ['Gaze 3D position left X', 'Gaze 3D position left Y', 'Gaze 3D position left Z',
                         'Gaze 3D position right X', 'Gaze 3D position right Y', 'Gaze 3D position right Z',
                         'Pupil diameter left', 'Pupil diameter right', 'HR', 'GSR', 'ConationLevel',
-                        'PredictedConation', 'GameState',
-                        'TimeSinceStart']
+                        'PredictedConation', 'GameState', 'TimeSinceStart']
 
-    DataPath = "Data01_8.txt"
+    DataPath = "TestData.csv"
 
     # Parse the local CSV file.
     data = pd.read_csv(filepath_or_buffer=DataPath,
                        names=CSV_COLUMN_NAMES,
                        header=0, sep=',')
+    data = data.drop(['PredictedConation'], axis=1)
+    data = data.drop(['GameState'], axis=1)
+    data = data.drop(['TimeSinceStart'], axis=1)
+    data = data.replace([1, 2, 3, 4], 0)
+    data = data.replace([5, 6, 7], 1)
+    plt.figure(figsize=(20, 20))
+
     cor = data.corr() #Calculate the correlation of the above variables
     plot = sns.heatmap(cor) #Plot the correlation as heat map
-
+    
     plt.show()
 
     def doKmeans(X, nclust=2):
@@ -117,3 +123,5 @@ def corr_plots():
     scatter2 = plt.scatter(projected[:, 0], projected[:, 1])
     #plt.colorbar(scatter2);
     plt.show()
+
+corr_plots()

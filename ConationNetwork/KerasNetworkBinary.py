@@ -119,6 +119,60 @@ def load_Train_Test_Data():
 
     return(train_feature, train_label), (test_feature, test_label)
 
+def load_Train_Test_Data_V2():
+    CSV_COLUMN_NAMES = ['Gaze 3D position left X', 'Gaze 3D position left Y', 'Gaze 3D position left Z',
+                        'Gaze 3D position right X', 'Gaze 3D position right Y', 'Gaze 3D position right Z',
+                        'Pupil diameter left', 'Pupil diameter right', 'HR', 'GSR', 'ConationLevel']
+
+    CSV_COLUMN_NAMES_TEST = ['Gaze 3D position left X', 'Gaze 3D position left Y', 'Gaze 3D position left Z',
+                        'Gaze 3D position right X', 'Gaze 3D position right Y', 'Gaze 3D position right Z',
+                        'Pupil diameter left', 'Pupil diameter right', 'HR', 'GSR', 'ConationLevel',
+                        'PredictedConation', 'GameState', 'TimeSinceStart']
+
+
+    train_path = "TrainData.csv"
+
+    # Parse the local CSV file.
+    train = pd.read_csv(filepath_or_buffer=train_path,
+                        names=CSV_COLUMN_NAMES,
+                        header=0, sep=',')
+
+    train_feature = train.drop(['ConationLevel'], axis=1)
+    #train_feature = train_feature.drop(['Gaze 3D position left X'], axis=1)
+    #train_feature = train_feature.drop(['Gaze 3D position left Y'], axis=1)
+    #train_feature = train_feature.drop(['Gaze 3D position left Z'], axis=1)
+    #train_feature = train_feature.drop(['Gaze 3D position right X'], axis=1)
+    #train_feature = train_feature.drop(['Gaze 3D position right Y'], axis=1)
+    #train_feature = train_feature.drop(['Gaze 3D position right Z'], axis=1)
+
+    train_label = train.pop('ConationLevel')
+    train_label = train_label.replace([1, 2, 3], 0)
+    train_label = train_label.replace([5, 6, 7, 4], 1)
+
+    test_path = "TestData.csv"
+
+    # Parse the local CSV file.
+    test = pd.read_csv(filepath_or_buffer=test_path,
+                        names=CSV_COLUMN_NAMES_TEST,
+                        header=0, sep=',')
+
+    test_feature = test.drop(['ConationLevel'], axis=1)
+    test_feature = test_feature.drop(['PredictedConation'], axis=1)
+    test_feature = test_feature.drop(['GameState'], axis=1)
+    test_feature = test_feature.drop(['TimeSinceStart'], axis=1)
+    #test_feature = test_feature.drop(['Gaze 3D position left Y'], axis=1)
+    #test_feature = test_feature.drop(['Gaze 3D position left Z'], axis=1)
+    #test_feature = test_feature.drop(['Gaze 3D position right X'], axis=1)
+    #test_feature = test_feature.drop(['Gaze 3D position right Y'], axis=1)
+    #test_feature = test_feature.drop(['Gaze 3D position right Z'], axis=1)
+
+    test_label = test.pop('ConationLevel')
+    test_label = test_label.replace([1, 2, 3], 0)
+    test_label = test_label.replace([5, 6, 7, 4], 1)
+
+
+    return(train_feature, train_label), (test_feature, test_label)
+
 def save_model(sess, saver, model_path=""):
 
     last_checkpoint = model_path + '/model.cptk'
@@ -183,12 +237,12 @@ def Keras_model():
               metrics=['binary_accuracy'])
     return model
 
-(train_feature, train_label), (test_feature, test_label) = load_Train_Test_Data()
+(train_feature, train_label), (test_feature, test_label) = load_Train_Test_Data_V2()
 
-
+#, callbacks=[CallBack], validation_split=validationSplit
 #Train and evaluate model
 model = Keras_model()
-model.fit(train_feature, train_label, epochs=epochs, batch_size=batchSize, callbacks=[CallBack], validation_split=validationSplit)
+model.fit(train_feature, train_label, epochs=epochs, batch_size=batchSize)
 loss_and_metrics = model.evaluate(test_feature, test_label, batch_size=128)
 
 

@@ -30,6 +30,12 @@ def load_Train_Test_Data():
                         header=0, sep=',')
 
     train_feature = train.drop(['ConationLevel'], axis=1)
+    #train_feature = train_feature.drop(['Gaze 3D position left X'], axis=1)
+    train_feature = train_feature.drop(['Gaze 3D position left Y'], axis=1)
+    train_feature = train_feature.drop(['Gaze 3D position left Z'], axis=1)
+    train_feature = train_feature.drop(['Gaze 3D position right X'], axis=1)
+    train_feature = train_feature.drop(['Gaze 3D position right Y'], axis=1)
+    train_feature = train_feature.drop(['Gaze 3D position right Z'], axis=1)
 
     train_label = train.pop('ConationLevel')
     train_label = train_label.replace([1, 2, 3], 0)
@@ -46,6 +52,11 @@ def load_Train_Test_Data():
     test_feature = test_feature.drop(['PredictedConation'], axis=1)
     test_feature = test_feature.drop(['GameState'], axis=1)
     test_feature = test_feature.drop(['TimeSinceStart'], axis=1)
+    test_feature = test_feature.drop(['Gaze 3D position left Y'], axis=1)
+    test_feature = test_feature.drop(['Gaze 3D position left Z'], axis=1)
+    test_feature = test_feature.drop(['Gaze 3D position right X'], axis=1)
+    test_feature = test_feature.drop(['Gaze 3D position right Y'], axis=1)
+    test_feature = test_feature.drop(['Gaze 3D position right Z'], axis=1)
 
     test_label = test.pop('ConationLevel')
     test_label = test_label.replace([1, 2, 3], 0)

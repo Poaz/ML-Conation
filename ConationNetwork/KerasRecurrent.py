@@ -90,6 +90,9 @@ class MainGenerator(object):
                 batch_features[i] = features[i+self.currentStep]
                 batch_labels[i] = labels[i+self.currentStep]
                 self.currentStep += 1
+                print(self.currentStep)
+                if((features.shape[0]-1000) == self.currentStep):
+                    self.currentStep = 0
             yield batch_features, batch_labels
 
 
@@ -141,7 +144,7 @@ model.compile(loss='binary_crossentropy',
 
 (train_feature, train_label), (test_feature, test_label) = load_Train_Test_Data()
 
-model.fit_generator(MainGenerator(train_feature, train_label, 200).generator(), steps_per_epoch=(train_feature.shape[0]/210)-1, epochs=10)
+model.fit_generator(MainGenerator(train_feature, train_label, 200).generator(), steps_per_epoch=(train_feature.shape[0]/210)-1, epochs=2)
 
 #model.fit_generator(generator(train_feature, train_label, 200), steps_per_epoch=200, epochs=1)
 

@@ -79,6 +79,8 @@ class MainGenerator(object):
                 batch_features[i] = features[i+self.currentStep]
                 batch_labels[i] = labels[i+self.currentStep]
                 self.currentStep += 1
+                if ((features.shape[0] - 1000) == self.currentStep):
+                    self.currentStep = 0
             yield batch_features, batch_labels
 
 
@@ -105,3 +107,5 @@ loss_and_metrics = model.evaluate_generator(MainGenerator(test_feature, test_lab
 print("\n" + "Loss: " + str(loss_and_metrics[0]) + "\n" + "Accuracy: " + str(loss_and_metrics[1]*100) + "%")
 #model.fit(train_feature, train_label, batch_size=16, epochs=10)
 #score = model.evaluate(test_feature, test_label, batch_size=16)
+
+model.save('ConationModel_Convolutional.HDF5')

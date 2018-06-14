@@ -1,4 +1,4 @@
-from keras.layers import Dense, Dropout, Activation, LSTM
+from keras.layers import Dense, Dropout, Activation, LSTM, BatchNormalization
 from keras.optimizers import SGD, Adam
 from keras.models import Sequential
 from keras.layers import Dense
@@ -12,7 +12,7 @@ from keras import backend as K
 
 ##############################################################################
 dropout = 0.3
-epochs = 50
+epochs = 20
 batchSize = 128
 validationSplit = 0.15
 classes = 7
@@ -90,10 +90,15 @@ CallBack = keras.callbacks.TensorBoard(log_dir='./Logs', histogram_freq=1, batch
 model = Sequential()
 
 model.add(Dense(20, input_dim=10))
-model.add(Activation('relu'))
+model.add(Activation('sigmoid'))
+model.add(Dropout(dropout))
+model.add(Dense(20))
+model.add(Activation('sigmoid'))
+model.add(BatchNormalization())
 model.add(Dropout(dropout))
 model.add(Dense(10))
-model.add(Activation('relu'))
+model.add(Activation('sigmoid'))
+model.add(BatchNormalization())
 model.add(Dropout(dropout))
 model.add(Dense(7))
 model.summary()
@@ -111,7 +116,7 @@ model.fit(train_feature, train_label, epochs=epochs, batch_size=batchSize, callb
 loss_and_metrics = model.evaluate(test_feature, test_label, batch_size=128)
 print(loss_and_metrics)
 
-model.save('ConationModel.HDF5')
+#model.save('ConationModel.HDF5')
 
 # Create, compile and train model...
 #frozen_graph = freeze_session(K.get_session(), output_names=[out.op.name for out in model.outputs])

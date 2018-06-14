@@ -9,6 +9,7 @@ import numpy as np
 import itertools
 from sklearn import decomposition
 from sklearn.metrics import accuracy_score
+import time
 class_names = ['Low', 'High']
 
 def load_Train_Test_Data():
@@ -31,11 +32,11 @@ def load_Train_Test_Data():
 
     train_feature = train.drop(['ConationLevel'], axis=1)
     #train_feature = train_feature.drop(['Gaze 3D position left X'], axis=1)
-    train_feature = train_feature.drop(['Gaze 3D position left Y'], axis=1)
-    train_feature = train_feature.drop(['Gaze 3D position left Z'], axis=1)
-    train_feature = train_feature.drop(['Gaze 3D position right X'], axis=1)
-    train_feature = train_feature.drop(['Gaze 3D position right Y'], axis=1)
-    train_feature = train_feature.drop(['Gaze 3D position right Z'], axis=1)
+    #train_feature = train_feature.drop(['Gaze 3D position left Y'], axis=1)
+    #train_feature = train_feature.drop(['Gaze 3D position left Z'], axis=1)
+    #train_feature = train_feature.drop(['Gaze 3D position right X'], axis=1)
+    #train_feature = train_feature.drop(['Gaze 3D position right Y'], axis=1)
+    #train_feature = train_feature.drop(['Gaze 3D position right Z'], axis=1)
 
     train_label = train.pop('ConationLevel')
     train_label = train_label.replace([1, 2, 3], 0)
@@ -52,11 +53,11 @@ def load_Train_Test_Data():
     test_feature = test_feature.drop(['PredictedConation'], axis=1)
     test_feature = test_feature.drop(['GameState'], axis=1)
     test_feature = test_feature.drop(['TimeSinceStart'], axis=1)
-    test_feature = test_feature.drop(['Gaze 3D position left Y'], axis=1)
-    test_feature = test_feature.drop(['Gaze 3D position left Z'], axis=1)
-    test_feature = test_feature.drop(['Gaze 3D position right X'], axis=1)
-    test_feature = test_feature.drop(['Gaze 3D position right Y'], axis=1)
-    test_feature = test_feature.drop(['Gaze 3D position right Z'], axis=1)
+    #test_feature = test_feature.drop(['Gaze 3D position left Y'], axis=1)
+    #test_feature = test_feature.drop(['Gaze 3D position left Z'], axis=1)
+    #test_feature = test_feature.drop(['Gaze 3D position right X'], axis=1)
+    #test_feature = test_feature.drop(['Gaze 3D position right Y'], axis=1)
+    #test_feature = test_feature.drop(['Gaze 3D position right Z'], axis=1)
 
     test_label = test.pop('ConationLevel')
     test_label = test_label.replace([1, 2, 3], 0)
@@ -136,10 +137,12 @@ clf = RandomForestClassifier(n_estimators=10, criterion='gini', max_depth=None,m
                              oob_score=False, n_jobs=2, random_state=None, verbose=0, warm_start=False,class_weight=None)
 
 y_pred = clf.fit(train_feature, train_label)
+start_time = time.clock()
+predictions = clf.predict(test_feature.iloc[0:-173184])
+print(time.clock() - start_time, "seconds")
 
-predictions = clf.predict(test_feature)
-acc = accuracy_score(test_label, predictions)
-print(acc)
+#acc = accuracy_score(test_label, predictions)
+#print(acc)
 #feature_Importance(clf, train_feature)
 
 #truePred = 0

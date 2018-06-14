@@ -6,6 +6,8 @@ import pickle
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix
 import itertools
+import time
+
 
 
 ###################################################################################
@@ -31,6 +33,33 @@ resample_rate = 50
 class_names = ['Low', 'High']
 
 ####################################################################################
+class MainGenerator(object):
+
+    def __init__(self, features, labels, batch_size):
+        self.features = features
+        self.labels = labels
+        self.batch_size = batch_size
+        self.currentStep = 0
+
+    def generator(self):
+
+        features = self.features
+        labels = self.labels
+        # Create empty arrays to contain batch of features and labels#
+        batch_features = np.zeros((self.batch_size, 200, 10))
+        batch_labels = np.zeros((200, 1))
+        features = features.values
+        labels = labels.values
+        while True:
+            for i in range(0, self.batch_size):
+                batch_features[i] = features[i+self.currentStep]
+                batch_labels[i] = labels[i+self.currentStep]
+                self.currentStep += 1
+                print(self.currentStep)
+                if((features.shape[0]-1000) == self.currentStep):
+                    self.currentStep = 0
+            yield batch_features, batch_labels
+
 
 def load_data_one_set(label_name='ConationLevel'):
     CSV_COLUMN_NAMES = ['Gaze 3D position left X', 'Gaze 3D position left Y', 'Gaze 3D position left Z',
@@ -146,16 +175,22 @@ def plot_confusion_matrix(cm, classes,
     plt.xlabel('Predicted label')
 
 
-#model = keras.models.load_model(r'ConationModel_Stacked_LSTM.HDF5')
+model = keras.models.load_model(r'ConationModel_Convolutional.HDF5')
 
 (train_features, train_labels), (test_feature, test_label) = load_Train_Test_Data()
 
 #SVM MODEL LOAD
 SVM_model = pickle.load(open('SVM_MODEL.sav', 'rb'))
-Predictions = SVM_model.score(test_feature, test_label)
+start_time = time.clock()
+Predictions = SVM_model.predict(test_feature)
+print(time.clock() - start_time, "seconds")
 print(Predictions)
 
-#Predictions = model.predict_generator(generator(test_feature, test_label, 64), steps=200)
+#Predictions = model.predict_generator(MainGenerator(test_feature, test_label, 64).generator(), steps=1)
+
+
+#Predictions = model.predict(test_feature.iloc[0:-173184])
+
 
 """
 print(np.shape(Predictions))
@@ -166,7 +201,7 @@ for i in range(len(Predictions)):
         BinaryLabels[i] = 1
     else:
         BinaryLabels[i] = 0
-"""
+
 truePred = 0
 falsePred = 0
 
@@ -184,7 +219,7 @@ print("Accuracy: " + str(truePred/(truePred+falsePred)))
 #output_df.to_csv(output_file_name, index=False)
 #
 #plot.plot(data_file_name, output_file_name, Aspect, show_Conation, OriginalFile, resample_rate)
-
+"""
 cnf_matrix = confusion_matrix(test_label, Predictions)
 np.set_printoptions(precision=2)
 plot_confusion_matrix(cnf_matrix, classes=class_names, normalize=True,

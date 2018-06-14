@@ -12,7 +12,8 @@ def load_Train_Test_Data():
                              'Pupil left', 'Pupil right', 'HR', 'GSR', 'ConationLevel',
                              'PredictedConation', 'GameState', 'TimeSinceStart']
 
-    train_path = "TrainData.csv"
+    #train_path = "TrainData.csv"
+    train_path = "CombinedDataNoZerosAbsVelocityOnEyes.csv"
 
     # Parse the local CSV file.
     train = pd.read_csv(filepath_or_buffer=train_path,
@@ -22,8 +23,8 @@ def load_Train_Test_Data():
     train_feature = train.drop(['ConationLevel'], axis=1)
     train_feature = train_feature.iloc[0:-19]
     train_label = train.pop('ConationLevel')
-    train_label = train_label.replace([1, 2, 3, 4], 0)
-    train_label = train_label.replace([5, 6, 7], 1)
+    #train_label = train_label.replace([1, 2, 3, 4], 0)
+    #train_label = train_label.replace([5, 6, 7], 1)
     train_label = train_label.iloc[0:-19]
     test_path = "TestData.csv"
 
@@ -49,7 +50,7 @@ def load_Train_Test_Data():
 
 model = RandomForestClassifier()
 # create the RFE model and select 3 attributes
-rfe = RFE(model, 5)
+rfe = RFE(model, 1)
 rfe = rfe.fit(train_feature, train_label)
 # summarize the selection of the attributes
 print(rfe.support_)

@@ -13,7 +13,7 @@ import time
 ###################################################################################
 
 # Name of data file to load and make predictions on
-data_file_name = "Data10_9.txt"
+data_file_name = "TestData\Data24_8.txt"
 
 # Name of output file
 output_file_name = "Predictions_P11.csv"
@@ -22,10 +22,10 @@ output_file_name = "Predictions_P11.csv"
 Aspect = 4
 
 #Show conationLevels, only possible on some data
-show_Conation = True
+show_Conation = False
 
 #Path to original file
-OriginalFile = 'Data10_9.txt'
+OriginalFile = 'TestData\Data24_8.txt'
 
 #Sets which nTH row to plot. Example: 50, is sampling every 50th row (1 sample/s)
 resample_rate = 50
@@ -55,8 +55,7 @@ class MainGenerator(object):
                 batch_features[i] = features[i+self.currentStep]
                 batch_labels[i] = labels[i+self.currentStep]
                 self.currentStep += 1
-                print(self.currentStep)
-                if((features.shape[0]-1000) == self.currentStep):
+                if((features.shape[0]-200) == self.currentStep):
                     self.currentStep = 0
             yield batch_features, batch_labels
 
@@ -127,72 +126,13 @@ def load_Train_Test_Data():
 
     return(train_feature, train_label), (test_feature, test_label)
 
-def generator(features, labels, batch_size):
-    # Create empty arrays to contain batch of features and labels#
-    batch_features = np.zeros((batch_size, 200, 10))
-    batch_labels = np.zeros((200, 1))
-    features = features.values
-    labels = labels.values
 
-    while True:
-        for i in range(batch_size):
-            batch_features[i] = features[i]
-            batch_labels[i] = labels[i]
-        yield batch_features, batch_labels
+model = keras.models.load_model(r'ConationModel_Stacked_LSTM.HDF5')
 
-def plot_confusion_matrix(cm, classes,
-                          normalize=False,
-                          title='Confusion matrix',
-                          cmap=plt.cm.Blues):
-    """
-    This function prints and plots the confusion matrix.
-    Normalization can be applied by setting `normalize=True`.
-    """
-    if normalize:
-        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
-        print("Normalized confusion matrix")
-    else:
-        print('Confusion matrix, without normalization')
+(test_feature, test_label) = load_data_one_set()
 
-    print(cm)
+Predictions = model.predict_generator(MainGenerator(test_feature, test_label, 64).generator(), steps=100)
 
-    plt.imshow(cm, interpolation='nearest', cmap=cmap)
-    plt.title(title)
-    plt.colorbar()
-    tick_marks = np.arange(len(classes))
-    plt.xticks(tick_marks, classes, rotation=45)
-    plt.yticks(tick_marks, classes)
-
-    fmt = '.2f' if normalize else 'd'
-    thresh = cm.max() / 2.
-    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
-        plt.text(j, i, format(cm[i, j], fmt),
-                 horizontalalignment="center",
-                 color="white" if cm[i, j] > thresh else "black")
-
-    plt.tight_layout()
-    plt.ylabel('True label')
-    plt.xlabel('Predicted label')
-
-
-model = keras.models.load_model(r'ConationModel_Convolutional.HDF5')
-
-(train_features, train_labels), (test_feature, test_label) = load_Train_Test_Data()
-
-#SVM MODEL LOAD
-SVM_model = pickle.load(open('SVM_MODEL.sav', 'rb'))
-start_time = time.clock()
-Predictions = SVM_model.predict(test_feature)
-print(time.clock() - start_time, "seconds")
-print(Predictions)
-
-#Predictions = model.predict_generator(MainGenerator(test_feature, test_label, 64).generator(), steps=1)
-
-
-#Predictions = model.predict(test_feature.iloc[0:-173184])
-
-
-"""
 print(np.shape(Predictions))
 BinaryLabels = np.zeros(np.shape(test_label))
 
@@ -205,8 +145,8 @@ for i in range(len(Predictions)):
 truePred = 0
 falsePred = 0
 
-for i in range(len(Predictions)):
-    if test_label[i] == Predictions[i]:
+for i in range(len(BinaryLabels)):
+    if test_label[i] == BinaryLabels[i]:
         truePred +=1
     else:
         falsePred +=1
@@ -214,15 +154,9 @@ for i in range(len(Predictions)):
 print("True: " + str(truePred))
 print("False: " + str(falsePred))
 print("Accuracy: " + str(truePred/(truePred+falsePred)))
-##
-#output_df = pd.DataFrame(Predictions)
-#output_df.to_csv(output_file_name, index=False)
-#
-#plot.plot(data_file_name, output_file_name, Aspect, show_Conation, OriginalFile, resample_rate)
-"""
-cnf_matrix = confusion_matrix(test_label, Predictions)
-np.set_printoptions(precision=2)
-plot_confusion_matrix(cnf_matrix, classes=class_names, normalize=True,
-                      title='Normalized confusion matrix')
-plt.tight_layout()
-plt.show()
+
+output_df = pd.DataFrame(BinaryLabels)
+output_df.to_csv(output_file_name, index=False)
+
+plot.plot(data_file_name, output_file_name, Aspect, show_Conation, OriginalFile, resample_rate)
+

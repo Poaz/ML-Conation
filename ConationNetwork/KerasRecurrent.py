@@ -65,6 +65,10 @@ def load_Train_Test_Data():
     test_label = test_label.replace([1, 2, 3, 4], 0)
     test_label = test_label.replace([5, 6, 7], 1)
     test_label = test_label.iloc[0:-186]
+
+    train_feature = train_feature.append(test_feature)
+    train_label = train_label.append(test_label)
+
     return (train_feature, train_label), (test_feature, test_label)
 
 
@@ -81,8 +85,8 @@ class MainGenerator(object):
         features = self.features
         labels = self.labels
         # Create empty arrays to contain batch of features and labels#
-        batch_features = np.zeros((self.batch_size, 200, 10))
-        batch_labels = np.zeros((200, 1))
+        batch_features = np.zeros((self.batch_size, 1150, 10))
+        batch_labels = np.zeros((1150, 1))
         features = features.values
         labels = labels.values
         while True:
@@ -90,8 +94,7 @@ class MainGenerator(object):
                 batch_features[i] = features[i+self.currentStep]
                 batch_labels[i] = labels[i+self.currentStep]
                 self.currentStep += 1
-                print(self.currentStep)
-                if((features.shape[0]-1000) == self.currentStep):
+                if((features.shape[0]-1200) == self.currentStep):
                     self.currentStep = 0
             yield batch_features, batch_labels
 
@@ -133,9 +136,10 @@ def plot_confusion_matrix(cm, classes,
 
 model = Sequential()
 
-model.add(LSTM(32, return_sequences=True, input_shape=(200, 10)))
-model.add(LSTM(32, return_sequences=True))
-model.add(LSTM(32))
+model.add(LSTM(32, return_sequences=True, input_shape=(1150, 10)))
+model.add(LSTM(25, return_sequences=True))
+model.add(LSTM(20))
+model.add(Dense(10, activation='sigmoid'))
 model.add(Dense(1, activation='sigmoid'))
 
 model.compile(loss='binary_crossentropy',
@@ -144,16 +148,13 @@ model.compile(loss='binary_crossentropy',
 
 (train_feature, train_label), (test_feature, test_label) = load_Train_Test_Data()
 
-model.fit_generator(MainGenerator(train_feature, train_label, 200).generator(), steps_per_epoch=(train_feature.shape[0]/210)-1, epochs=2)
+model.fit_generator(MainGenerator(train_feature, train_label, 1150).generator(), steps_per_epoch=(train_feature.shape[0]/1150)-5, epochs=2)
 
-#model.fit_generator(generator(train_feature, train_label, 200), steps_per_epoch=200, epochs=1)
-
-loss_and_metrics = model.evaluate_generator(MainGenerator(test_feature, test_label, 200).generator(), steps=(test_feature.shape[0]/210)-1)
+loss_and_metrics = model.evaluate_generator(MainGenerator(test_feature, test_label, 1150).generator(), steps=(test_feature.shape[0]/1150)-5)
 
 print("\n" + "Loss: " + str(loss_and_metrics[0]) + "\n" + "Accuracy: " + str(loss_and_metrics[1] * 100) + "%")
 
-model.save('ConationModel_Stacked_LSTM.HDF5')
-
+model.save('ConationModel_Stacked_LSTM_V2.HDF5')
 
 """
 # Compute confusion matrix

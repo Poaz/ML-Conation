@@ -48,8 +48,8 @@ def plot(data_file, prediction_file, aspect, showConation, OriginalFile, resampl
         sns.lmplot(y='ConationLevel', x='TimeSinceStart', hue="GameState", fit_reg=False, scatter_kws={"s": 5},
                    data=ConationLevels,
                    line_kws={"s": 1}, aspect=aspect)
-        predictions = predictions.replace(0, 2.5)
-        predictions = predictions.replace(1, 3.5)
+        #predictions = predictions.replace(0, 2.5)
+        #predictions = predictions.replace(1, 3.5)
 
     predictions = predictions.iloc[::resample_rate,:]
     data = data.iloc[::resample_rate, :]
@@ -125,4 +125,32 @@ def corr_plots():
     #plt.colorbar(scatter2);
     plt.show()
 
+"""
 corr_plots()
+
+###################################################################################
+
+# Name of data file to load and make predictions on
+data_file_name = "TestData\Data24_8.txt"
+
+# Name of output file
+output_file_name = "Predictions_P11.csv"
+
+# Sets how wide the plot is. Higher is wider
+Aspect = 4
+
+#Show conationLevels, only possible on some data
+show_Conation = False
+
+#Path to original file
+OriginalFile = 'TestData\Data24_8.txt'
+
+#Sets which nTH row to plot. Example: 50, is sampling every 50th row (1 sample/s)
+resample_rate = 50
+
+class_names = ['Low', 'High']
+
+####################################################################################
+
+plot(data_file_name, output_file_name, Aspect, show_Conation, OriginalFile, resample_rate)
+"""
